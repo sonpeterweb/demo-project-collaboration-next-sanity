@@ -272,6 +272,35 @@ export const allBlogTagsQuery = `array::unique(*[_type == "blogPost" && defined(
 
 export const blogPostCountQuery = `count(*[_type == "blogPost" && defined(publishedAt)])`;
 
+// Admin queries (includes drafts and unpublished content)
+export const allBlogPostsAdminQuery = `*[_type == "blogPost"] | order(_updatedAt desc) {
+  _id,
+  _type,
+  _createdAt,
+  _updatedAt,
+  title,
+  slug,
+  "authorName": author->name,
+  publishedAt,
+  excerpt,
+  tags
+}`;
+
+export const blogPostByIdAdminQuery = `*[_type == "blogPost" && _id == $id][0] {
+  _id,
+  _type,
+  _createdAt,
+  _updatedAt,
+  title,
+  slug,
+  author,
+  publishedAt,
+  updatedAt,
+  excerpt,
+  content,
+  tags
+}`;
+
 // Case Study Queries
 export const allCaseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt desc) {
   _id,
