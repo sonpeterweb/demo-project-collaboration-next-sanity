@@ -2,7 +2,7 @@
   "home": {
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "subtitle": "A Next.js starter template, packed with features like TypeScript, Tailwind CSS, Next-auth, Eslint, testing tools and more. Jumpstart your project with efficiency and style.",
+    "subtitle": "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.",
     "getStartedButton": "Get started"
   }
 }

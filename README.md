@@ -1,132 +1,74 @@
-<a href="https://next-starter-skolaczk.vercel.app/">
-<img src="/public/opengraph-image.jpg" alt="thumbnail">
-</a>
-<p align="center">
-  <a href="#-features"><strong>Features</strong></a> ·
-  <a href="#-deployment"><strong>Deployment</strong></a> ·
-  <a href="#-getting-started"><strong>Getting started</strong></a> ·
-  <a href="#%EF%B8%8F-scripts-overview"><strong>Scripts overview</strong></a> ·
-  <a href="#-contribution"><strong>Contribution</strong></a> ·
-  <a href="#%EF%B8%8F-support"><strong>Support</strong></a>
-</p>
+# Flowspace
 
-## 🎉 Features
-- 🚀 Next.js 15 (App router)
-- ⚛️ React 19
-- 📘 Typescript
-- 🎨 Tailwind CSS 4 - Class sorting, merging and linting
-- 🛠️ Shadcn/ui - Customizable UI components
-- 🔒 Next-auth - Easy authentication library for Next.js (GitHub provider)
-- 🔍 Zod - Schema validation library
-- 🧪 Jest & React Testing Library - Configured for unit testing
-- 🎭 Playwright - Configured for e2e testing
-- 📈 Absolute Import & Path Alias - Import components using `@/` prefix
-- 💅 Prettier - Code formatter
-- 🧹 Eslint - Code linting tool
-- 🐶 Husky & Lint Staged - Run scripts on your staged files before they are committed
-- 🔹 Icons - From Lucide
-- 🌑 Dark mode - With next-themes
-- 📝 Commitlint - Lint your git commits
-- 🤖 Github actions - Lint your code on PR
-- ⚙️ T3-env - Manage your environment variables
-- 🗺️ Sitemap & robots.txt
-- 💯 Perfect Lighthouse score
-- 🌐 I18n with next-intl
+A marketing and collaboration platform built with Next.js and Sanity CMS. Flowspace helps teams showcase product content, publish blog posts and documentation, collect contact submissions, and manage content through an authenticated admin panel.
 
-## 🚀 Deployment
-Easily deploy your Next.js app with <a href="https://vercel.com/">Vercel</a> by clicking the button below:
+## Features
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Skolaczk/next-starter)
+- Marketing pages powered by Sanity (home, features, pricing, about, case studies, contact)
+- Blog, documentation hub, and dynamic SEO (sitemap, robots, metadata)
+- GitHub OAuth admin panel with CRUD for blog posts, testimonials, and pricing
+- Preview mode for draft Sanity content
+- ISR caching, optimized Sanity images, and accessibility improvements
+- Jest unit tests and Playwright e2e tests
 
-## 🎯 Getting started
-### 1. Clone this template in one of three ways
+## Getting started
 
-1. Using this repository as template
-
-   ![use-this-template-button](https://github.com/Skolaczk/next-starter/assets/76774237/f25c9a29-41de-4865-aa38-c032b9346169)
-
-2. Using `create-next-app`
-
-   ```bash
-   npx create-next-app -e https://github.com/Skolaczk/next-starter my-project-name
-   ```
-
-3. Using `git clone`
-
-   ```bash
-   git clone https://github.com/Skolaczk/next-starter my-project-name
-   ```
-### 2. Install dependencies
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set up environment variables
-Create `.env` file and set env variables from `.env.example` file.
+### 2. Set up environment variables
 
-### 4. Prepare husky
-It is required if you want husky to work
+Copy `.env.example` to `.env.local` and fill in the required values:
+
+- Sanity project ID, dataset, and API token
+- GitHub OAuth credentials for the admin panel
+- `APP_URL`, `NEXTAUTH_SECRET`, and related auth settings
+
+### 3. Prepare Husky (optional)
 
 ```bash
 npm run prepare
 ```
 
-### 5. Run the dev server
+### 4. Seed demo content (optional)
 
-You can start the server using this command:
+```bash
+npm run seed:sanity
+```
+
+### 5. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-and open http://localhost:3000/ to see this app.
+Open [http://localhost:3000](http://localhost:3000).
 
-## 📁 Project structure
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run start` | Start production server |
+| `npm test` | Run unit tests |
+| `npm run e2e` | Run Playwright e2e tests |
+| `npm run seed:sanity` | Seed Sanity with demo content |
+| `npm run lint` | Lint the codebase |
+| `npm run typecheck` | TypeScript type check |
+
+## Project structure
 
 ```bash
 .
-├── .github                         # GitHub folder
-├── .husky                          # Husky configuration
-├── public                          # Public assets folder
+├── sanity/              # Sanity schema and Studio config
+├── scripts/             # Utility scripts (e.g. seed)
 └── src
-    ├── __tests__                   # Unit and e2e tests
-    ├── actions                     # Server actions
-    ├── app                         # Next JS App (App Router)
-    ├── components                  # React components
-    ├── lib                         # Functions and utilities
-    ├── styles                      # Styles folder
-    └── env.mjs                     # Env variables config file
+    ├── app/             # Next.js App Router pages and API routes
+    ├── components/      # React components
+    ├── lib/             # Utilities, Sanity client, SEO helpers
+    └── styles/          # Global styles
 ```
-
-## ⚙️ Scripts overview
-The following scripts are available in the `package.json`:
-- `dev`: Run development server
-- `build`: Build the app
-- `start`: Run production server
-- `preview`: Run `build` and `start` commands together
-- `lint`: Lint the code using Eslint
-- `lint:fix`: Fix linting errors
-- `format:check`: Checks the code for proper formatting
-- `format:write`: Fix formatting issues
-- `typecheck`: Type-check TypeScript without emitting files
-- `test`: Run unit tests
-- `test:watch`: Run unit tests in watch mode
-- `e2e`: Run end-to-end tests
-- `e2e:ui`: Run end-to-end tests with UI
-- `postbuild`: Generate sitemap
-- `prepare`: Install Husky for managing Git hooks
-
-## 🤝 Contribution
-To contribute, please follow these steps:
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes, and commit them.
-4. Push your changes to the forked repository.
-5. Create a pull request.
-
-## ❤️ Support
-
-If you liked the project, I will appreciate if you leave a star. 🌟😊
-
-Made by <a href="https://michalskolak.netlify.app/">Michał Skolak</a> 

@@ -19,7 +19,7 @@ export default async function Header({ className }: HeaderProps) {
         label: link.label,
         href: link.href,
       })) ?? [];
-  const siteTitle = settings?.siteTitle ?? "next-starter";
+  const siteTitle = settings?.siteTitle ?? "Flowspace";
 
   return (
     <header className={cn("relative w-full border-b", className)}>

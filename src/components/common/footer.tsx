@@ -15,8 +15,7 @@ export default async function Footer({ className }: FooterProps) {
     <footer className={cn("border-t py-6", className)}>
       <div className="text-muted-foreground container flex flex-col items-center justify-between gap-2 text-center text-sm md:flex-row md:text-left">
         <p>
-          © {year} {settings?.siteTitle ?? "next-starter"}. All rights
-          reserved.
+          © {year} {settings?.siteTitle ?? "Flowspace"}. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           <Link href="/privacy" className="hover:text-foreground">

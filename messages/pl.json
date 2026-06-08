@@ -2,7 +2,7 @@
   "home": {
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
-    "subtitle": "Szablon startowy Next.js, pełen funkcji takich jak TypeScript, Tailwind CSS, Next-auth, Eslint, narzędzia testowe i wiele innych. Rozpocznij swój projekt wydajnie i stylowo.",
+    "subtitle": "Flowspace pomaga zespołom współpracować, zarządzać projektami i komunikować się bez wysiłku — wszystko w jednym miejscu.",
     "getStartedButton": "Zacznij"
   }
 }

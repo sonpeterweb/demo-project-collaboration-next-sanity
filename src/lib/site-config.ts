@@ -1,9 +1,14 @@
 import { env } from "@/env.mjs";
 
 export const siteConfig = {
-  title: "Next.js Starter",
+  title: "Flowspace",
   description:
-    "A Next.js starter template, packed with features like TypeScript, Tailwind CSS, Next-auth, Eslint, testing tools and more. Jumpstart your project with efficiency and style.",
-  keywords: ["Next.js", "TypeScript", "Tailwind CSS", "Next-auth"],
+    "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.",
+  keywords: [
+    "Flowspace",
+    "collaboration",
+    "project management",
+    "team communication",
+  ],
   url: env.APP_URL,
 };

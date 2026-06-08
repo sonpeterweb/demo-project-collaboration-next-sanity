@@ -13,7 +13,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default async function AboutPage() {
   const settings = await getSiteSettings();
-  const siteTitle = settings?.siteTitle ?? "Next Starter";
+  const siteTitle = settings?.siteTitle ?? "Flowspace";
 
   return (
     <>
