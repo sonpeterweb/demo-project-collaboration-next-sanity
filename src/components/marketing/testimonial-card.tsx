@@ -1,7 +1,7 @@
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Star } from "lucide-react";
-import Image from "next/image";
 
-import { urlFor } from "@/lib/sanity/client";
+import { SanityImage } from "@/components/common/sanity-image";
 import { cn } from "@/lib/utils";
 
 export type TestimonialCardProps = {
@@ -43,10 +43,6 @@ export function TestimonialCard({
   avatar,
   rating,
 }: TestimonialCardProps) {
-  const avatarUrl = avatar
-    ? urlFor(avatar)?.width(64).height(64).fit("crop").url()
-    : undefined;
-
   return (
     <figure className={cn("rounded-lg border p-5", className)}>
       <blockquote className="text-foreground mb-3 leading-relaxed">
@@ -54,8 +50,14 @@ export function TestimonialCard({
       </blockquote>
       <figcaption className="flex items-center gap-3">
         <div className="overflow-hidden rounded-full">
-          {avatarUrl ? (
-            <Image src={avatarUrl} alt={name} width={40} height={40} />
+          {avatar ? (
+            <SanityImage
+              image={avatar as SanityImageSource}
+              alt={name}
+              width={40}
+              height={40}
+              sizes="40px"
+            />
           ) : (
             <div className="bg-muted h-10 w-10 rounded-full" />
           )}

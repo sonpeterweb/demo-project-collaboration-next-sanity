@@ -4,8 +4,9 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
 import { FeatureCard } from "@/components/marketing/feature-card";
-import { client } from "@/lib/sanity/client";
+import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import { allFeaturesQuery } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import { type Feature, featureSchema } from "@/lib/sanity/zod";
 import { buildMetadata } from "@/lib/seo";
 
@@ -15,7 +16,12 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function FeaturesPage() {
-  const features = await client.fetch(allFeaturesQuery);
+  const features = await cachedSanityFetch<unknown>(
+    ["all-features"],
+    allFeaturesQuery,
+    {},
+    { tags: [SANITY_CACHE_TAGS.features] },
+  );
   const safeFeatures: Feature[] = (Array.isArray(features) ? features : [])
     .map((f) => featureSchema.safeParse(f))
     .filter((r): r is { success: true; data: Feature } => r.success)
@@ -24,7 +30,7 @@ export default async function FeaturesPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Features"
           description="Explore what you can do with our platform."

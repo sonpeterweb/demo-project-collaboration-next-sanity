@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Get in Touch"
           description="Have a question or want to learn more? Send us a message and we'll get back to you soon."

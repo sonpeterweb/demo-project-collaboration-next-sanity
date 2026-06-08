@@ -1,13 +1,13 @@
-import Image from "next/image";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Link from "next/link";
 
-import { urlFor } from "@/lib/sanity/client";
+import { SanityImage } from "@/components/common/sanity-image";
 import { cn } from "@/lib/utils";
 
 export type IntegrationItem = {
   name: string;
   href?: string;
-  logo?: unknown; // Sanity image source
+  logo?: unknown;
 };
 
 export type IntegrationsProps = {
@@ -32,16 +32,15 @@ export default function Integrations({
         </h3>
         <ul className="grid grid-cols-2 items-center gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {items.map((item) => {
-            const src = item.logo
-              ? urlFor(item.logo)?.width(160).height(64).fit("max").url()
-              : undefined;
-            const img = src ? (
-              <Image
-                src={src}
+            const img = item.logo ? (
+              <SanityImage
+                image={item.logo as SanityImageSource}
                 alt={item.name}
                 width={160}
                 height={64}
+                fit="max"
                 className="mx-auto h-8 w-auto opacity-80"
+                sizes="160px"
               />
             ) : (
               <div className="bg-muted text-muted-foreground mx-auto flex h-8 w-32 items-center justify-center rounded">

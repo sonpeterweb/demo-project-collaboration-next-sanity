@@ -1,12 +1,18 @@
 import { Section } from "@/components/common/section";
 import { HeroClient } from "@/components/marketing/hero.client";
-import { client } from "@/lib/sanity/client";
+import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import { homePageHeroQuery } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import { type HomePage, homePageSchema } from "@/lib/sanity/zod";
 
 async function getHome(): Promise<HomePage | null> {
   try {
-    const data = await client.fetch(homePageHeroQuery);
+    const data = await cachedSanityFetch<unknown>(
+      ["home-page-hero"],
+      homePageHeroQuery,
+      {},
+      { tags: [SANITY_CACHE_TAGS.homePage] },
+    );
     const parsed = homePageSchema.safeParse(data);
     if (!parsed.success) return null;
     return parsed.data;

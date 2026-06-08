@@ -4,8 +4,9 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
-import { client } from "@/lib/sanity/client";
+import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import { allCaseStudiesQuery } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import { type CaseStudy, caseStudySchema } from "@/lib/sanity/zod";
 import { buildMetadata } from "@/lib/seo";
 
@@ -16,7 +17,12 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function CaseStudiesPage() {
-  const raw = await client.fetch(allCaseStudiesQuery);
+  const raw = await cachedSanityFetch<unknown>(
+    ["all-case-studies"],
+    allCaseStudiesQuery,
+    {},
+    { tags: [SANITY_CACHE_TAGS.caseStudies] },
+  );
   const caseStudies: CaseStudy[] = (Array.isArray(raw) ? raw : [])
     .map((item) => caseStudySchema.safeParse(item))
     .filter(
@@ -27,7 +33,7 @@ export default async function CaseStudiesPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Case Studies"
           description="See how Flowspace helps high-performing teams deliver results."

@@ -6,8 +6,10 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
 import { DocSearch } from "@/components/docs/doc-search";
-import { getClient, isPreviewMode } from "@/lib/sanity/client";
+import { isPreviewMode } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import { allDocPagesQuery, docsSearchQuery } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import { type DocPage, docPageSchema } from "@/lib/sanity/zod";
 import { buildMetadata } from "@/lib/seo";
 
@@ -41,7 +43,7 @@ export default async function DocsIndexPage({ searchParams }: DocsPageProps) {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Documentation"
           description="Find guides, tutorials, and references to help you implement Flowspace."
@@ -142,8 +144,15 @@ export default async function DocsIndexPage({ searchParams }: DocsPageProps) {
 }
 
 async function fetchAllPages(preview = false): Promise<DocPage[]> {
-  const sanityClient = await getClient(preview);
-  const rawPages = await sanityClient.fetch(allDocPagesQuery);
+  const rawPages = await sanityFetch<unknown>(
+    allDocPagesQuery,
+    {},
+    {
+      cacheKey: ["all-doc-pages"],
+      tags: [SANITY_CACHE_TAGS.docs],
+      preview,
+    },
+  );
   return (Array.isArray(rawPages) ? rawPages : [])
     .map((item) => docPageSchema.safeParse(item))
     .filter(
@@ -156,11 +165,15 @@ async function fetchSearchResults(
   searchTerm: string,
   preview = false,
 ): Promise<DocPage[]> {
-  const sanityClient = await getClient(preview);
-  const searchQuery = `*${searchTerm}*`; // GROQ match uses wildcards
-  const rawPages = await sanityClient.fetch<unknown[]>(
-    docsSearchQuery as string,
-    { searchTerm: searchQuery } as Record<string, unknown>,
+  const searchQuery = `*${searchTerm}*`;
+  const rawPages = await sanityFetch<unknown[]>(
+    docsSearchQuery,
+    { searchTerm: searchQuery },
+    {
+      cacheKey: ["docs-search", searchTerm],
+      tags: [SANITY_CACHE_TAGS.docs],
+      preview,
+    },
   );
   return (Array.isArray(rawPages) ? rawPages : [])
     .map((item) => docPageSchema.safeParse(item))

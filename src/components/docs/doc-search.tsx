@@ -83,6 +83,7 @@ export function DocSearch({
         <Button
           variant="outline"
           onClick={() => setIsOpen(true)}
+          aria-label="Search documentation"
           className="text-muted-foreground relative h-9 w-full justify-start text-sm sm:pr-12 md:w-40 lg:w-64"
         >
           <span className="hidden lg:inline-flex">Search documentation...</span>
