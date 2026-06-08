@@ -16,8 +16,14 @@ import {
   TableOfContents,
   type TocHeading,
 } from "@/components/docs/table-of-contents";
-import { getClient, isPreviewMode } from "@/lib/sanity/client";
-import { docNavigationQuery, docPageBySlugQuery } from "@/lib/sanity/queries";
+import { isPreviewMode } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
+import {
+  allDocSlugsQuery,
+  docNavigationQuery,
+  docPageBySlugQuery,
+} from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import {
   type DocNavItem,
   docNavItemSchema,
@@ -27,15 +33,29 @@ import {
 import { buildMetadata } from "@/lib/seo";
 
 type DocPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
+
+export async function generateStaticParams() {
+  const slugs = await sanityFetch<Array<{ slug: string }>>(
+    allDocSlugsQuery,
+    {},
+    {
+      cacheKey: ["doc-slugs"],
+      tags: [SANITY_CACHE_TAGS.docs],
+    },
+  );
+
+  return (slugs ?? []).map(({ slug }) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,
 }: DocPageProps): Promise<Metadata> {
-  const doc = await fetchDoc(params.slug);
+  const { slug } = await params;
+  const doc = await fetchDoc(slug);
   if (!doc) return buildMetadata({ title: "Docs" });
   return buildMetadata({
     title: doc.title,
@@ -46,11 +66,19 @@ export async function generateMetadata({
 }
 
 export default async function DocPage({ params }: DocPageProps) {
+  const { slug } = await params;
   const preview = await isPreviewMode();
-  const sanityClient = await getClient(preview);
   const [doc, navItemsRaw] = await Promise.all([
-    fetchDoc(params.slug),
-    sanityClient.fetch(docNavigationQuery),
+    fetchDoc(slug),
+    sanityFetch<unknown>(
+      docNavigationQuery,
+      {},
+      {
+        cacheKey: ["doc-navigation"],
+        tags: [SANITY_CACHE_TAGS.docs],
+        preview,
+      },
+    ),
   ]);
   if (!doc) notFound();
 
@@ -69,7 +97,7 @@ export default async function DocPage({ params }: DocPageProps) {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section>
           <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)_220px]">
             <DocSidebar
@@ -79,7 +107,9 @@ export default async function DocPage({ params }: DocPageProps) {
             />
             <article className="prose prose-neutral dark:prose-invert max-w-none">
               <Breadcrumb items={breadcrumbs} className="mb-4" />
-              <h1 className="mb-4 text-4xl font-bold">{doc.title}</h1>
+              <h1 className="mb-4 text-3xl font-bold sm:text-4xl">
+                {doc.title}
+              </h1>
               <DocContent content={portableContent} headings={headings} />
             </article>
             <TableOfContents headings={headings} className="hidden lg:block" />
@@ -93,8 +123,15 @@ export default async function DocPage({ params }: DocPageProps) {
 
 async function fetchDoc(slug: string): Promise<DocPage | null> {
   const preview = await isPreviewMode();
-  const sanityClient = await getClient(preview);
-  const data = await sanityClient.fetch(docPageBySlugQuery, { slug });
+  const data = await sanityFetch<unknown>(
+    docPageBySlugQuery,
+    { slug },
+    {
+      cacheKey: ["doc-page", slug],
+      tags: [SANITY_CACHE_TAGS.docPage, SANITY_CACHE_TAGS.docs],
+      preview,
+    },
+  );
   const parsed = docPageSchema.safeParse(data);
   return parsed.success ? parsed.data : null;
 }

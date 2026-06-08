@@ -420,6 +420,26 @@ export const docNavigationQuery = `*[_type == "docPage"] | order(category asc, o
   }
 }`;
 
+// Sitemap query - slugs and last modified dates for dynamic routes
+export const sitemapEntriesQuery = `{
+  "blogPosts": *[_type == "blogPost" && defined(publishedAt)]{
+    "slug": slug.current,
+    "updatedAt": coalesce(updatedAt, publishedAt, _updatedAt)
+  },
+  "docPages": *[_type == "docPage"]{
+    "slug": slug.current,
+    "updatedAt": _updatedAt
+  }
+}`;
+
+export const allBlogSlugsQuery = `*[_type == "blogPost" && defined(publishedAt)]{
+  "slug": slug.current
+}`;
+
+export const allDocSlugsQuery = `*[_type == "docPage"]{
+  "slug": slug.current
+}`;
+
 // Contact Submission Queries
 export const allContactSubmissionsQuery = `*[_type == "contactSubmission"] | order(submittedAt desc) {
   _id,

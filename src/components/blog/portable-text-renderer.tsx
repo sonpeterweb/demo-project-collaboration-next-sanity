@@ -2,10 +2,9 @@ import {
   PortableText,
   type PortableTextReactComponents,
 } from "@portabletext/react";
-import Image from "next/image";
 import type { PortableTextBlock, PortableTextObject } from "sanity";
 
-import { urlFor } from "@/lib/sanity/client";
+import { SanityImage } from "@/components/common/sanity-image";
 
 type PortableTextValue = Array<PortableTextBlock | PortableTextObject>;
 
@@ -16,16 +15,17 @@ type PortableTextRendererProps = {
 const components: PortableTextReactComponents = {
   types: {
     image: ({ value }) => {
-      const src = value ? urlFor(value)?.width(1200).fit("max").url() : null;
-      if (!src) return null;
+      if (!value) return null;
       return (
         <div className="my-6 overflow-hidden rounded-lg">
-          <Image
-            src={src}
+          <SanityImage
+            image={value}
             alt={value?.alt || ""}
             width={1200}
             height={800}
+            fit="max"
             className="h-auto w-full"
+            sizes="(max-width: 768px) 100vw, 768px"
           />
         </div>
       );

@@ -1,24 +1,11 @@
 import Link from "next/link";
 
-import { client } from "@/lib/sanity/client";
-import { siteSettingsQuery } from "@/lib/sanity/queries";
-import { type SiteSettings, siteSettingsSchema } from "@/lib/sanity/zod";
+import { getSiteSettings } from "@/lib/sanity/site-settings";
 import { cn } from "@/lib/utils";
 
 export type FooterProps = {
   className?: string;
 };
-
-async function getSiteSettings(): Promise<SiteSettings | null> {
-  try {
-    const data = await client.fetch(siteSettingsQuery);
-    const parsed = siteSettingsSchema.safeParse(data);
-    if (!parsed.success) return null;
-    return parsed.data;
-  } catch {
-    return null;
-  }
-}
 
 export default async function Footer({ className }: FooterProps) {
   const settings = await getSiteSettings();

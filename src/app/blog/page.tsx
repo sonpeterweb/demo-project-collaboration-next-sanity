@@ -7,7 +7,8 @@ import { BlogSearch } from "@/components/blog/search";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
-import { getClient, isPreviewMode } from "@/lib/sanity/client";
+import { isPreviewMode } from "@/lib/sanity/client";
+import { sanityFetch } from "@/lib/sanity/fetch";
 import {
   allBlogTagsQuery,
   blogPostCountQuery,
@@ -17,6 +18,7 @@ import {
   blogPostsSearchCountQuery,
   blogPostsSearchQuery,
 } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import {
   type BlogPostWithAuthor,
   blogPostWithAuthorSchema,
@@ -46,10 +48,17 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const searchTerm = searchParams?.search?.trim() || null;
 
   const preview = await isPreviewMode();
-  const sanityClient = await getClient(preview);
 
   const [tags, postsData] = await Promise.all([
-    sanityClient.fetch(allBlogTagsQuery),
+    sanityFetch<string[]>(
+      allBlogTagsQuery,
+      {},
+      {
+        cacheKey: ["blog-tags"],
+        tags: [SANITY_CACHE_TAGS.blog],
+        preview,
+      },
+    ),
     fetchPosts({ page: currentPage, tag, search: searchTerm, preview }),
   ]);
 
@@ -59,15 +68,20 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     : blogPostsPaginatedQuery;
   const allPostsForSearch = searchTerm
     ? postsData.posts
-    : await sanityClient.fetch<unknown[]>(
-        query as string,
-        { start: 0, end: 50 } as Record<string, unknown>,
+    : await sanityFetch<unknown[]>(
+        query,
+        { start: 0, end: 50 },
+        {
+          cacheKey: ["blog-posts-search-index"],
+          tags: [SANITY_CACHE_TAGS.blog],
+          preview,
+        },
       );
 
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Blog"
           description="Product updates, best practices, and guides for building better collaboration."
@@ -163,20 +177,26 @@ async function fetchPosts({
   totalPages: number;
   currentPage: number;
 }> {
-  const sanityClient = await getClient(preview);
-  // Handle search query
   if (search) {
-    const searchTerm = `*${search}*`; // GROQ match uses wildcards
-    // For preview mode, we need to allow draft content in search
-    // The search queries already handle this via GROQ filtering
+    const searchTerm = `*${search}*`;
     const [rawPosts, totalCount] = await Promise.all([
-      sanityClient.fetch<unknown[]>(
-        blogPostsSearchQuery as string,
-        { searchTerm } as Record<string, unknown>,
+      sanityFetch<unknown[]>(
+        blogPostsSearchQuery,
+        { searchTerm },
+        {
+          cacheKey: ["blog-search", search],
+          tags: [SANITY_CACHE_TAGS.blog],
+          preview,
+        },
       ),
-      sanityClient.fetch<number>(
-        blogPostsSearchCountQuery as string,
-        { searchTerm } as Record<string, unknown>,
+      sanityFetch<number>(
+        blogPostsSearchCountQuery,
+        { searchTerm },
+        {
+          cacheKey: ["blog-search-count", search],
+          tags: [SANITY_CACHE_TAGS.blog],
+          preview,
+        },
       ),
     ]);
 
@@ -201,9 +221,14 @@ async function fetchPosts({
 
   // Handle tag filter
   if (tag) {
-    const raw = await sanityClient.fetch<unknown[]>(
-      blogPostsByTagQuery as string,
-      { tag } as Record<string, unknown>,
+    const raw = await sanityFetch<unknown[]>(
+      blogPostsByTagQuery,
+      { tag },
+      {
+        cacheKey: ["blog-tag", tag],
+        tags: [SANITY_CACHE_TAGS.blog],
+        preview,
+      },
     );
     const parsed = (Array.isArray(raw) ? raw : []) as unknown[];
     const safePosts = parsed
@@ -232,11 +257,24 @@ async function fetchPosts({
     ? blogPostsPaginatedPreviewQuery
     : blogPostsPaginatedQuery;
   const [rawPosts, totalCount] = await Promise.all([
-    sanityClient.fetch<unknown[]>(
-      paginatedQuery as string,
-      { start, end } as Record<string, unknown>,
+    sanityFetch<unknown[]>(
+      paginatedQuery,
+      { start, end },
+      {
+        cacheKey: ["blog-posts-page", String(page), tag ?? "", search ?? ""],
+        tags: [SANITY_CACHE_TAGS.blog],
+        preview,
+      },
     ),
-    sanityClient.fetch<number>(blogPostCountQuery),
+    sanityFetch<number>(
+      blogPostCountQuery,
+      {},
+      {
+        cacheKey: ["blog-post-count"],
+        tags: [SANITY_CACHE_TAGS.blog],
+        preview,
+      },
+    ),
   ]);
 
   const posts = (Array.isArray(rawPosts) ? rawPosts : [])
@@ -276,19 +314,23 @@ function Pagination({
   }
 
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+    <nav
+      aria-label="Blog pagination"
+      className="mt-8 flex flex-wrap items-center justify-center gap-2"
+    >
       {pages.map((page) => (
         <Link
           key={page}
           href={buildHref(page)}
+          aria-current={page === currentPage ? "page" : undefined}
           className={cn(
-            "rounded-md border px-3 py-1 text-sm",
+            "rounded-md border px-3 py-2 text-sm",
             page === currentPage && "bg-primary text-primary-foreground",
           )}
         >
           {page}
         </Link>
       ))}
-    </div>
+    </nav>
   );
 }

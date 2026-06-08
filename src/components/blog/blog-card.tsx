@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
-import { urlFor } from "@/lib/sanity/client";
+import { SanityImage } from "@/components/common/sanity-image";
 import type { BlogPostWithAuthor } from "@/lib/sanity/zod";
 
 type BlogCardProps = {
@@ -18,23 +17,20 @@ function formatDate(input?: string | null) {
 }
 
 export function BlogCard({ post }: BlogCardProps) {
-  const cover = post.coverImage
-    ? urlFor(post.coverImage)?.width(800).height(500).fit("crop").url()
-    : null;
-
   return (
     <article className="bg-card rounded-lg border shadow-sm transition hover:shadow-md">
-      {cover && (
+      {post.coverImage && (
         <Link
           href={`/blog/${post.slug.current}`}
           className="block overflow-hidden rounded-t-lg"
         >
-          <Image
-            src={cover}
+          <SanityImage
+            image={post.coverImage}
             alt={post.title}
             width={800}
             height={400}
             className="h-48 w-full object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
           />
         </Link>
       )}
@@ -54,12 +50,13 @@ export function BlogCard({ post }: BlogCardProps) {
         )}
         <div className="text-muted-foreground flex items-center gap-3 text-sm">
           {post.author?.photo ? (
-            <Image
-              src={urlFor(post.author.photo)?.width(64).height(64).url() ?? ""}
+            <SanityImage
+              image={post.author.photo}
               alt={post.author.name}
               width={32}
               height={32}
               className="h-8 w-8 rounded-full object-cover"
+              sizes="32px"
             />
           ) : (
             <div className="bg-muted h-8 w-8 rounded-full" />

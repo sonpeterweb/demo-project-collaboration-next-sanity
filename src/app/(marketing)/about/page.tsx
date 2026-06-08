@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
-import { client } from "@/lib/sanity/client";
-import { siteSettingsQuery } from "@/lib/sanity/queries";
-import { siteSettingsSchema } from "@/lib/sanity/zod";
+import { getSiteSettings } from "@/lib/sanity/site-settings";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
@@ -14,16 +12,13 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function AboutPage() {
-  const settingsData = await client.fetch(siteSettingsQuery);
-  const settingsParsed = siteSettingsSchema.safeParse(settingsData);
-  const siteTitle = settingsParsed.success
-    ? settingsParsed.data.siteTitle
-    : "Next Starter";
+  const settings = await getSiteSettings();
+  const siteTitle = settings?.siteTitle ?? "Next Starter";
 
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title={`About ${siteTitle}`}
           description="We build tools that help teams collaborate and move faster."

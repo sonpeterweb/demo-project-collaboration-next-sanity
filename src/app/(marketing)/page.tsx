@@ -8,11 +8,12 @@ import Hero from "@/components/marketing/hero";
 import Integrations from "@/components/marketing/integrations";
 import { Reveal } from "@/components/marketing/reveal.client";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
-import { client } from "@/lib/sanity/client";
+import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import {
   featuredFeaturesQuery,
   featuredTestimonialsQuery,
 } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import {
   type Feature,
   featureSchema,
@@ -28,8 +29,20 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function HomePage() {
-  const features = await client.fetch(featuredFeaturesQuery);
-  const testimonials = await client.fetch(featuredTestimonialsQuery);
+  const [features, testimonials] = await Promise.all([
+    cachedSanityFetch<unknown>(
+      ["featured-features"],
+      featuredFeaturesQuery,
+      {},
+      { tags: [SANITY_CACHE_TAGS.features] },
+    ),
+    cachedSanityFetch<unknown>(
+      ["featured-testimonials"],
+      featuredTestimonialsQuery,
+      {},
+      { tags: [SANITY_CACHE_TAGS.testimonials] },
+    ),
+  ]);
 
   const safeFeatures: Feature[] = (Array.isArray(features) ? features : [])
     .map((f) => featureSchema.safeParse(f))
@@ -46,7 +59,7 @@ export default async function HomePage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
 
         <Section

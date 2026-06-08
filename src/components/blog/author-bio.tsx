@@ -1,6 +1,4 @@
-import Image from "next/image";
-
-import { urlFor } from "@/lib/sanity/client";
+import { SanityImage } from "@/components/common/sanity-image";
 import type { Author } from "@/lib/sanity/zod";
 
 type AuthorBioProps = {
@@ -9,21 +7,18 @@ type AuthorBioProps = {
 };
 
 export function AuthorBio({ author, className }: AuthorBioProps) {
-  const avatar = author.photo
-    ? urlFor(author.photo)?.width(200).height(200).fit("crop").url()
-    : undefined;
-
   return (
     <div
       className={`flex items-center gap-4 rounded-lg border p-4 ${className ?? ""}`}
     >
-      {avatar ? (
-        <Image
-          src={avatar}
+      {author.photo ? (
+        <SanityImage
+          image={author.photo}
           alt={author.name}
           width={64}
           height={64}
           className="h-16 w-16 rounded-full object-cover"
+          sizes="64px"
         />
       ) : (
         <div className="bg-muted h-16 w-16 rounded-full" />

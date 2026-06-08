@@ -4,8 +4,9 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Section } from "@/components/common/section";
 import { PricingToggle } from "@/components/marketing/pricing-toggle.client";
-import { client } from "@/lib/sanity/client";
+import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import { allPricingTiersQuery } from "@/lib/sanity/queries";
+import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import { type PricingTier, pricingTierSchema } from "@/lib/sanity/zod";
 import { buildMetadata } from "@/lib/seo";
 
@@ -15,7 +16,12 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function PricingPage() {
-  const tiers = await client.fetch(allPricingTiersQuery);
+  const tiers = await cachedSanityFetch<unknown>(
+    ["all-pricing-tiers"],
+    allPricingTiersQuery,
+    {},
+    { tags: [SANITY_CACHE_TAGS.pricing] },
+  );
   const safeTiers: PricingTier[] = (Array.isArray(tiers) ? tiers : [])
     .map((t) => pricingTierSchema.safeParse(t))
     .filter((r): r is { success: true; data: PricingTier } => r.success)
@@ -24,7 +30,7 @@ export default async function PricingPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <Section
           title="Pricing"
           description="Flexible plans to get your team moving."
