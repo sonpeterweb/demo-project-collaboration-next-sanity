@@ -17,6 +17,20 @@ export const metadata: Metadata = {
   },
   description: "Flowspace helps teams collaborate and communicate.",
   metadataBase: new URL(env.APP_URL),
+  openGraph: {
+    type: "website",
+    siteName: "Flowspace",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        alt: "Flowspace — collaborate, manage projects, and communicate in one place.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/opengraph-image.png"],
+  },
 };
 
 export const viewport: Viewport = {

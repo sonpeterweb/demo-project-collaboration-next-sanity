@@ -39,6 +39,8 @@ export const allFeaturesQuery = `*[_type == "feature"] | order(title asc) {
 export const featuredFeaturesQuery = `*[_type == "feature" && defined(category)] | order(_createdAt desc) [0...6] {
   _id,
   _type,
+  _createdAt,
+  _updatedAt,
   title,
   description,
   icon,
@@ -75,6 +77,8 @@ export const allTestimonialsQuery = `*[_type == "testimonial"] | order(_createdA
 export const featuredTestimonialsQuery = `*[_type == "testimonial"] | order(_createdAt desc) [0...3] {
   _id,
   _type,
+  _createdAt,
+  _updatedAt,
   name,
   company,
   quote,
@@ -340,6 +344,7 @@ export const allDocPagesQuery = `*[_type == "docPage"] | order(category asc, ord
   slug,
   category,
   order,
+  content,
   "parent": parent->{
     _id,
     title,

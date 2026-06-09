@@ -5,6 +5,13 @@ import { z } from "zod";
  * These schemas ensure type safety and validate data fetched from Sanity
  */
 
+/** Sanity system fields — optional because GROQ projections vary by query. */
+const sanitySystemFields = {
+  _rev: z.string().optional(),
+  _createdAt: z.string().optional(),
+  _updatedAt: z.string().optional(),
+};
+
 // Common schemas
 const imageSchema = z.object({
   _type: z.literal("image"),
@@ -47,9 +54,7 @@ const portableTextSchema = z.array(
 export const siteSettingsSchema = z.object({
   _id: z.string(),
   _type: z.literal("siteSettings"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   siteTitle: z.string(),
   logo: imageSchema.nullable().optional(),
   metaDescription: z.string().nullable().optional(),
@@ -81,9 +86,7 @@ export type HomePage = z.infer<typeof homePageSchema>;
 export const featureSchema = z.object({
   _id: z.string(),
   _type: z.literal("feature"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   title: z.string(),
   description: z.string(),
   icon: z.string(),
@@ -96,9 +99,7 @@ export type Feature = z.infer<typeof featureSchema>;
 export const pricingTierSchema = z.object({
   _id: z.string(),
   _type: z.literal("pricingTier"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   name: z.string(),
   monthlyPrice: z.number(),
   yearlyPrice: z.number(),
@@ -113,9 +114,7 @@ export type PricingTier = z.infer<typeof pricingTierSchema>;
 export const testimonialSchema = z.object({
   _id: z.string(),
   _type: z.literal("testimonial"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   name: z.string(),
   company: z.string(),
   quote: z.string(),
@@ -133,13 +132,23 @@ export const authorReferenceSchema = z.object({
   _strengthenOnPublish: z.boolean().optional(),
 });
 
+/** Denormalized author from GROQ projections (list/detail views). */
+export const authorSummarySchema = z.object({
+  _id: z.string(),
+  _type: z.literal("author").optional(),
+  name: z.string(),
+  slug: slugSchema,
+  photo: imageSchema.nullable().optional(),
+  bio: z.string().nullable().optional(),
+});
+
+export type AuthorSummary = z.infer<typeof authorSummarySchema>;
+
 // Author Schema (full)
 export const authorSchema = z.object({
   _id: z.string(),
   _type: z.literal("author"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   name: z.string(),
   slug: slugSchema,
   photo: imageSchema.nullable().optional(),
@@ -152,9 +161,7 @@ export type Author = z.infer<typeof authorSchema>;
 export const blogPostSchema = z.object({
   _id: z.string(),
   _type: z.literal("blogPost"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   title: z.string(),
   slug: slugSchema,
   author: authorReferenceSchema,
@@ -169,9 +176,12 @@ export const blogPostSchema = z.object({
 export type BlogPost = z.infer<typeof blogPostSchema>;
 
 // Blog Post with populated author
-export const blogPostWithAuthorSchema = blogPostSchema.extend({
-  author: authorSchema,
-});
+export const blogPostWithAuthorSchema = blogPostSchema
+  .omit({ author: true, content: true })
+  .extend({
+    author: authorSummarySchema,
+    content: portableTextSchema.optional(),
+  });
 
 export type BlogPostWithAuthor = z.infer<typeof blogPostWithAuthorSchema>;
 
@@ -179,9 +189,7 @@ export type BlogPostWithAuthor = z.infer<typeof blogPostWithAuthorSchema>;
 export const caseStudySchema = z.object({
   _id: z.string(),
   _type: z.literal("caseStudy"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   title: z.string(),
   client: z.string(),
   summary: z.string().nullable().optional(),
@@ -214,14 +222,12 @@ const docParentSchema = z
 export const docPageSchema = z.object({
   _id: z.string(),
   _type: z.literal("docPage"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   title: z.string(),
   slug: slugSchema,
   category: z.string().nullable().optional(),
   order: z.number().nullable().optional(),
-  content: portableTextSchema,
+  content: portableTextSchema.optional(),
   parent: docParentSchema,
 });
 
@@ -242,9 +248,7 @@ export type DocNavItem = z.infer<typeof docNavItemSchema>;
 export const contactSubmissionSchema = z.object({
   _id: z.string(),
   _type: z.literal("contactSubmission"),
-  _createdAt: z.string(),
-  _updatedAt: z.string(),
-  _rev: z.string(),
+  ...sanitySystemFields,
   name: z.string(),
   email: z.string().email(),
   company: z.string(),

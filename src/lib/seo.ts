@@ -17,15 +17,12 @@ export function buildMetadata(input: BuildMetadataInput = {}): Metadata {
     title = "",
     description = "",
     url = "",
-    image = "/opengraph-image.jpg",
+    image = "/opengraph-image.png",
     siteName = title || "",
   } = input;
 
-  const absoluteImage = image?.startsWith("http")
-    ? image
-    : image
-      ? `${url?.replace(/\/$/, "")}${image.startsWith("/") ? image : `/${image}`}`
-      : undefined;
+  // Relative paths resolve against metadataBase in the root layout.
+  const ogImage = image?.startsWith("http") ? image : image || undefined;
 
   return {
     title,
@@ -35,10 +32,10 @@ export function buildMetadata(input: BuildMetadataInput = {}): Metadata {
       title,
       description,
       url,
-      image: absoluteImage,
+      image: ogImage,
       siteName,
     }),
-    twitter: buildTwitter({ title, description, image: absoluteImage }),
+    twitter: buildTwitter({ title, description, image: ogImage }),
   } satisfies Metadata;
 }
 

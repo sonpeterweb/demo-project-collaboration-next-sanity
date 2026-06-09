@@ -34,18 +34,19 @@ export const metadata: Metadata = buildMetadata({
 });
 
 type BlogPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     page?: string;
     tag?: string;
     search?: string;
-  };
+  }>;
 };
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const pageParam = Number(searchParams?.page) || 1;
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const pageParam = Number(resolvedSearchParams.page) || 1;
   const currentPage = Math.max(1, pageParam);
-  const tag = searchParams?.tag?.trim() || null;
-  const searchTerm = searchParams?.search?.trim() || null;
+  const tag = resolvedSearchParams.tag?.trim() || null;
+  const searchTerm = resolvedSearchParams.search?.trim() || null;
 
   const preview = await isPreviewMode();
 

@@ -20,13 +20,14 @@ export const metadata: Metadata = buildMetadata({
 });
 
 type DocsPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     search?: string;
-  };
+  }>;
 };
 
 export default async function DocsIndexPage({ searchParams }: DocsPageProps) {
-  const searchTerm = searchParams?.search?.trim() || null;
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const searchTerm = resolvedSearchParams.search?.trim() || null;
 
   const preview = await isPreviewMode();
 

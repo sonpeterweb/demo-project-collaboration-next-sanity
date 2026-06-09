@@ -13,6 +13,17 @@ describe("seo helpers", () => {
     expect(metadata.alternates?.canonical).toBe("https://example.com/pricing");
   });
 
+  it("builds metadata with default open graph image at site root", () => {
+    const metadata = buildMetadata({
+      title: "Pricing",
+      description: "Flexible plans for every team.",
+      url: "https://example.com/pricing",
+    });
+
+    expect(metadata.openGraph?.images).toEqual(["/opengraph-image.png"]);
+    expect(metadata.twitter?.images).toEqual(["/opengraph-image.png"]);
+  });
+
   it("builds open graph metadata", () => {
     const og = buildOpenGraph({
       title: "Blog",

@@ -18,13 +18,13 @@ export type IntegrationsProps = {
 
 export default function Integrations({
   className,
-  title = "Integrations",
+  title = "Built with",
   items,
 }: IntegrationsProps) {
   return (
     <section
       className={cn("w-full py-8 md:py-10", className)}
-      aria-label="Integrations"
+      aria-label={title}
     >
       <div className="container">
         <h3 className="text-muted-foreground mb-4 text-center text-xs tracking-wider uppercase">

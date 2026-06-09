@@ -64,20 +64,6 @@ export default function ContactPage() {
                     </a>
                   </div>
                 </div>
-
-                <div className="flex gap-4">
-                  <div className="bg-primary/10 flex h-12 w-12 shrink-0 items-center justify-center rounded-lg">
-                    <MapPin className="text-primary size-5" />
-                  </div>
-                  <div>
-                    <div className="mb-1 font-semibold">Office</div>
-                    <p className="text-muted-foreground text-sm">
-                      123 Innovation Street
-                      <br />
-                      San Francisco, CA 94105
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
 

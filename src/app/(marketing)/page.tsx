@@ -96,13 +96,14 @@ export default async function HomePage() {
         </Section>
 
         <Integrations
+          title="Built with"
           items={[
             { name: "Sanity" },
             { name: "Next.js" },
+            { name: "Tailwind CSS" },
             { name: "Vercel" },
-            { name: "Stripe" },
             { name: "GitHub" },
-            { name: "Radix" },
+            { name: "Radix UI" },
           ]}
         />
       </main>

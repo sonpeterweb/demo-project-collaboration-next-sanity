@@ -1,8 +1,8 @@
 import { SanityImage } from "@/components/common/sanity-image";
-import type { Author } from "@/lib/sanity/zod";
+import type { AuthorSummary } from "@/lib/sanity/zod";
 
 type AuthorBioProps = {
-  author: Author;
+  author: AuthorSummary;
   className?: string;
 };
 

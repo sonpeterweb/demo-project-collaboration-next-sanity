@@ -35,30 +35,6 @@ export default async function AboutPage() {
             </p>
           </div>
         </Section>
-
-        <Section
-          title="Our Team"
-          description="A small, focused group of builders."
-        >
-          <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-            <li className="rounded-lg border p-5">
-              <div className="mb-1 text-lg font-semibold">Alex Taylor</div>
-              <div className="text-muted-foreground text-sm">
-                Product & Design
-              </div>
-            </li>
-            <li className="rounded-lg border p-5">
-              <div className="mb-1 text-lg font-semibold">Jordan Smith</div>
-              <div className="text-muted-foreground text-sm">Engineering</div>
-            </li>
-            <li className="rounded-lg border p-5">
-              <div className="mb-1 text-lg font-semibold">Riley Chen</div>
-              <div className="text-muted-foreground text-sm">
-                Customer Success
-              </div>
-            </li>
-          </ul>
-        </Section>
       </main>
       <Footer />
     </>
