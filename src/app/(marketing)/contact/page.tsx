@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import type { Metadata } from "next";
 
 import Footer from "@/components/common/footer";

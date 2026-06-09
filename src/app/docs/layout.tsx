@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 
-import { CONTENT_REVALIDATE_SECONDS } from "@/lib/sanity/revalidate";
-
-export const revalidate = CONTENT_REVALIDATE_SECONDS;
+/** Must be a literal — see CONTENT_REVALIDATE_SECONDS in @/lib/sanity/revalidate */
+export const revalidate = 1800;
 
 export default function DocsLayout({ children }: { children: ReactNode }) {
   return children;
