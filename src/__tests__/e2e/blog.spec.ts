@@ -4,12 +4,20 @@ test.describe("Blog page", () => {
   test("loads the blog listing", async ({ page }) => {
     await page.goto("/blog");
 
+    const main = page.getByRole("main");
+
     await expect(page).toHaveTitle(/Blog/);
-    await expect(page.getByRole("heading", { name: "Blog" })).toBeVisible();
+    await expect(
+      main.getByRole("heading", { name: "Blog", exact: true }),
+    ).toBeVisible();
 
-    const postCards = page.locator("article");
-    const emptyState = page.getByText(/No posts found|Check back later/);
-
-    await expect(postCards.first().or(emptyState)).toBeVisible();
+    const postCount = await main.locator("article").count();
+    if (postCount > 0) {
+      await expect(main.locator("article").first()).toBeVisible();
+    } else {
+      await expect(
+        main.getByText("No posts found", { exact: true }),
+      ).toBeVisible();
+    }
   });
 });
