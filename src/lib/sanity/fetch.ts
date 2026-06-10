@@ -1,4 +1,5 @@
 import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
+import { isCiSanityEnvironment } from "@/lib/sanity/ci";
 import { getClient, isPreviewMode } from "@/lib/sanity/client";
 import {
   CONTENT_REVALIDATE_SECONDS,
@@ -24,8 +25,16 @@ export async function sanityFetch<T>(
   const preview = options.preview ?? (await isPreviewMode());
 
   if (preview) {
-    const client = await getClient(true);
-    return client.fetch<T>(query, params);
+    try {
+      const client = await getClient(true);
+      return await client.fetch<T>(query, params);
+    } catch (error) {
+      if (isCiSanityEnvironment()) {
+        console.warn("Sanity preview fetch skipped in CI:", error);
+        return null as T;
+      }
+      throw error;
+    }
   }
 
   const cacheKey = options.cacheKey ?? [

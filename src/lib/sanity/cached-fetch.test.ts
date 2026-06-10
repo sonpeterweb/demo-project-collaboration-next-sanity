@@ -27,6 +27,21 @@ describe("cachedSanityFetch", () => {
     mockedFetch.mockResolvedValue({ ok: true });
   });
 
+  it("returns null in CI when Sanity is unavailable", async () => {
+    const originalCi = process.env.CI;
+    const originalProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+    process.env.CI = "true";
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = "ci-sanity-project";
+    mockedFetch.mockRejectedValue(new Error("Dataset not found"));
+
+    const result = await cachedSanityFetch(["ci-key"], "*[_type == 'test']");
+
+    expect(result).toBeNull();
+
+    process.env.CI = originalCi;
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = originalProjectId;
+  });
+
   it("wraps Sanity fetches with unstable_cache", async () => {
     const result = await cachedSanityFetch(
       ["test-key"],

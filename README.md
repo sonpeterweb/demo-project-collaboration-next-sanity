@@ -5,9 +5,6 @@
 A CMS-driven marketing and collaboration platform built with **Next.js 15**, **Sanity**, and **NextAuth**. Portfolio demo for Upwork — showcases headless CMS integration, preview mode, ISR caching, admin CRUD, and type-safe content pipelines.
 
 ## Live demo
-
-> Replace the placeholder URLs below after deploying to Vercel and Sanity Studio.
-
 | Resource | URL |
 |----------|-----|
 | **Live site** | [https://flowspacestudio.vercel.app](https://flowspacestudio.vercel.app) |

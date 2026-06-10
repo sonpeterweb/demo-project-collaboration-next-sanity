@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 
+import { isCiSanityEnvironment } from "@/lib/sanity/ci";
 import { client } from "@/lib/sanity/client";
 import { MARKETING_REVALIDATE_SECONDS } from "@/lib/sanity/revalidate";
 
@@ -27,5 +28,13 @@ export async function cachedSanityFetch<T>(
     { revalidate, tags },
   );
 
-  return fetcher();
+  try {
+    return await fetcher();
+  } catch (error) {
+    if (isCiSanityEnvironment()) {
+      console.warn("Sanity fetch skipped in CI:", error);
+      return null as T;
+    }
+    throw error;
+  }
 }

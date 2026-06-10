@@ -46,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   };
 
   try {
-    dynamicEntries = await cachedSanityFetch<SitemapData>(
+    const fetched = await cachedSanityFetch<SitemapData>(
       ["sitemap-entries"],
       sitemapEntriesQuery,
       {},
@@ -55,6 +55,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         tags: [SANITY_CACHE_TAGS.sitemap],
       },
     );
+    if (fetched) {
+      dynamicEntries = fetched;
+    }
   } catch (error) {
     console.error("Failed to fetch sitemap entries from Sanity:", error);
   }
