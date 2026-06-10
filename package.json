@@ -18,8 +18,8 @@
     "e2e:ui": "playwright test --ui",
     "seed:sanity": "node --env-file=.env.local scripts/seed-sanity.mjs",
     "seed:sanity:fresh": "node --env-file=.env.local scripts/seed-sanity.mjs --fresh",
-    "sanity:deploy": "cd sanity && npm install && node --env-file=../.env.local ./node_modules/sanity/bin/sanity deploy",
-    "sanity:dev": "cd sanity && npm install && node --env-file=../.env.local ./node_modules/sanity/bin/sanity dev",
+    "sanity:deploy": "cd sanity && npm install && npm run deploy",
+    "sanity:dev": "cd sanity && npm install && npm run dev",
     "prepare": "husky"
   },
   "husky": {

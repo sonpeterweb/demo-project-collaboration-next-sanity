@@ -6,6 +6,7 @@
 /sanity/dist
 /.pnp
 .pnp.js
+.sanity/
 
 # testing
 /coverage

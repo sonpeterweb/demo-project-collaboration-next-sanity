@@ -32,7 +32,7 @@ Create `.env.local` in the project root (see [`.env.example`](.env.example)):
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=your_read_token_here
-SANITY_REVALIDATE_SECRET=your_webhook_secret_here
+SANITY_REVALIDATE_SECRET=6bb703aff8a549cc79bf0393fbbbc49de8d49a643b3ab657476e2fe5b1804e02
 APP_URL=http://localhost:3000
 ```
 
@@ -62,6 +62,8 @@ Then deploy from the **repo root** (Studio deps install automatically):
 ```bash
 npm run sanity:deploy
 ```
+
+> Do **not** run bare `npx sanity deploy` from the repo root — it won't load `sanity/.env` or find the Studio config. Use `npm run sanity:deploy`, or from `sanity/` run `npm run deploy`.
 
 On first deploy, the CLI prompts you to choose a studio hostname (e.g. `flowspace-demo`). Your Studio URL will be `https://flowspace-demo.sanity.studio`.
 
