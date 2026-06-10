@@ -9,21 +9,23 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { env } from "@/env.mjs";
 import { fonts } from "@/lib/fonts";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: {
-    default: "Flowspace",
-    template: "%s | Flowspace",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
   },
-  description: "Flowspace helps teams collaborate and communicate.",
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
   metadataBase: new URL(env.APP_URL),
   openGraph: {
     type: "website",
-    siteName: "Flowspace",
+    siteName: siteConfig.title,
     images: [
       {
         url: "/opengraph-image.png",
-        alt: "Flowspace — collaborate, manage projects, and communicate in one place.",
+        alt: `${siteConfig.title} — ${siteConfig.description}`,
       },
     ],
   },

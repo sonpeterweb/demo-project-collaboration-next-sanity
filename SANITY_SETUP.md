@@ -1,6 +1,6 @@
 # Sanity CMS Setup Guide
 
-This guide will help you set up your Sanity project and configure the environment variables.
+This guide covers Sanity project setup, environment variables, Studio deploy, and on-demand revalidation.
 
 ## Step 1: Create a Sanity Account and Project
 
@@ -8,59 +8,106 @@ This guide will help you set up your Sanity project and configure the environmen
 2. Once logged in, create a new project:
    - Click "Create new project"
    - Enter a project name (e.g., "Flowspace CMS")
-   - Choose a dataset name (typically "production" for production, "development" for local dev)
+   - Choose a dataset name (typically `production`)
    - Select the nearest region
 
 ## Step 2: Get Your Project Credentials
 
 1. Go to [https://www.sanity.io/manage](https://www.sanity.io/manage)
 2. Select your project
-3. Go to **API** section in the project settings
+3. Go to **API** in the project settings
 4. You'll need:
-   - **Project ID**: Found under "Project ID" (looks like: `abc12345`)
-   - **Dataset**: Usually `production` or `development`
-   - **API Token** (optional): For draft/preview mode
+   - **Project ID** — under "Project ID" (e.g. `abc12345`)
+   - **Dataset** — usually `production`
+   - **API Token** (optional but recommended for preview mode)
      - Go to **API** → **Tokens**
-     - Create a new token with **"Editor"** permission (minimum required to read draft/unpublished content)
-     - Copy the token (you won't see it again!)
-     - **Note**: "Viewer" permission only reads published content; use "Editor" or higher for preview mode
+     - Create a token with **Editor** permission (minimum to read draft content)
+     - **Note:** Viewer only reads published content; use Editor or higher for preview mode
 
 ## Step 3: Configure Environment Variables
 
-Create a `.env.local` file in the root of your project (or update your existing `.env` file) with the following:
+Create `.env.local` in the project root (see [`.env.example`](.env.example)):
 
 ```env
-# Sanity CMS Configuration
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_READ_TOKEN=your_read_token_here  # Optional, only needed for preview mode
+SANITY_API_READ_TOKEN=your_read_token_here
+SANITY_REVALIDATE_SECRET=6bb703aff8a549cc79bf0393fbbbc49de8d49a643b3ab657476e2fe5b1804e02
+APP_URL=http://localhost:3000
 ```
 
-**Important Notes:**
-- `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` are required
-- `SANITY_API_READ_TOKEN` is optional but recommended if you want to use preview/draft mode
-- Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser
-- Never commit `.env.local` to git (it's already in `.gitignore`)
+**Notes:**
 
-## Step 4: Verify Setup
+- `NEXT_PUBLIC_*` variables are exposed to the browser
+- Never commit `.env.local` to git (already in `.gitignore`)
+- Environment variables are validated at build time
 
-After setting up environment variables, restart your dev server:
+## Step 4: Deploy Sanity Studio (optional)
+
+Deploy Studio separately so editors can manage content without running the Next.js app locally.
+
+This project includes a self-contained Studio in `sanity/` (`sanity.cli.ts`, `sanity.config.ts`, and `package.json`).
+
+The Studio reads its own env file — copy `sanity/.env.example` to `sanity/.env` and set:
+
+```env
+SANITY_STUDIO_PROJECT_ID=your_project_id
+SANITY_STUDIO_DATASET=production
+```
+
+> Only `SANITY_STUDIO_*` variables are exposed to the Studio bundle; the Next.js `NEXT_PUBLIC_*` vars are not visible to it.
+
+Then deploy from the **repo root** (Studio deps install automatically):
+
+```bash
+npm run sanity:deploy
+```
+
+> Do **not** run bare `npx sanity deploy` from the repo root — it won't load `sanity/.env` or find the Studio config. Use `npm run sanity:deploy`, or from `sanity/` run `npm run deploy`.
+
+On first deploy, the CLI prompts you to choose a studio hostname (e.g. `flowspace-demo`). Your Studio URL will be `https://flowspace-demo.sanity.studio`.
+
+If you are not logged in yet:
+
+```bash
+npx sanity login
+```
+
+Or host Studio at `/studio` in the Next.js app — see [Sanity + Next.js docs](https://www.sanity.io/docs/js-client).
+
+## Step 5: Seed Demo Content
+
+```bash
+npm run seed:sanity:fresh
+```
+
+This clears and re-seeds blog posts, case studies, docs, features, pricing, and site settings.
+
+## Step 6: On-Demand Revalidation Webhook
+
+When content is published in Sanity, trigger ISR cache busting without a full redeploy:
+
+1. Generate a secret (e.g. `openssl rand -hex 32`) and add it to `.env.local` as `SANITY_REVALIDATE_SECRET`
+2. In [Sanity Manage](https://www.sanity.io/manage) → your project → **API** → **Webhooks** → **Create webhook**
+3. Configure:
+   - **URL:** `https://your-site.com/api/revalidate?secret=YOUR_SECRET`
+   - **Dataset:** `production`
+   - **Trigger on:** Create, Update, Delete
+   - **Filter:** `_type in ["blogPost","docPage","caseStudy","feature","testimonial","pricingTier","pageHome","siteSettings"]`
+4. Publish content in Studio — the site should revalidate within seconds
+
+## Step 7: Verify Setup
+
+Restart the dev server after setting env vars:
 
 ```bash
 npm run dev
 ```
 
-The environment variables are validated at build time, so you'll see an error if any required variables are missing.
-
-## Next Steps
-
-1. Set up Sanity Studio (Task 1.7)
-2. Create content schemas (Task 1.4)
-3. Start creating content!
+Open [http://localhost:3000](http://localhost:3000). Missing required variables will surface as build-time errors.
 
 ## Resources
 
 - [Sanity Documentation](https://www.sanity.io/docs)
 - [Next.js + Sanity Integration](https://www.sanity.io/docs/js-client)
 - [Sanity Project Management](https://www.sanity.io/manage)
-

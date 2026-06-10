@@ -1,0 +1,23 @@
+{
+  "name": "flowspace-studio",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "node --env-file=.env ./node_modules/sanity/bin/sanity dev",
+    "build": "node --env-file=.env ./node_modules/sanity/bin/sanity build",
+    "deploy": "node --env-file=.env ./node_modules/sanity/bin/sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/code-input": "^6.0.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "sanity": "^4.15.0",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}

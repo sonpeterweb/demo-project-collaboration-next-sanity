@@ -16,6 +16,7 @@ type SitemapEntry = {
 type SitemapData = {
   blogPosts: SitemapEntry[];
   docPages: SitemapEntry[];
+  caseStudies: SitemapEntry[];
 };
 
 const STATIC_ROUTES: Array<{
@@ -38,7 +39,11 @@ const STATIC_ROUTES: Array<{
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = env.APP_URL.replace(/\/$/, "");
 
-  let dynamicEntries: SitemapData = { blogPosts: [], docPages: [] };
+  let dynamicEntries: SitemapData = {
+    blogPosts: [],
+    docPages: [],
+    caseStudies: [],
+  };
 
   try {
     dynamicEntries = await cachedSanityFetch<SitemapData>(
@@ -79,5 +84,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  return [...staticEntries, ...blogEntries, ...docEntries];
+  const caseStudyEntries: MetadataRoute.Sitemap = (
+    dynamicEntries.caseStudies ?? []
+  ).map((study) => ({
+    url: `${baseUrl}/case-studies/${study.slug}`,
+    lastModified: study.updatedAt ? new Date(study.updatedAt) : new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...blogEntries, ...docEntries, ...caseStudyEntries];
 }
