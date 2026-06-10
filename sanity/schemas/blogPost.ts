@@ -32,8 +32,8 @@ export default defineType({
       name: "publishedAt",
       type: "datetime",
       title: "Published At",
-      validation: (Rule) => Rule.required(),
-      initialValue: () => new Date().toISOString(),
+      description:
+        "Leave empty to keep this post as a draft. Set a date when ready to publish on the live site.",
     }),
     defineField({
       name: "updatedAt",

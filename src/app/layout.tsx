@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { env } from "@/env.mjs";
 import { fonts } from "@/lib/fonts";
+import { isPreviewMode } from "@/lib/sanity/client";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -44,7 +45,13 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const isPreview = await isPreviewMode();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -56,7 +63,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SkipLink />
-          <PreviewModeIndicator />
+          <PreviewModeIndicator isPreview={isPreview} />
           {children}
           <Toaster />
         </ThemeProvider>

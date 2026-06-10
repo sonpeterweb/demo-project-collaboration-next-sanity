@@ -165,7 +165,7 @@ export const blogPostSchema = z.object({
   title: z.string(),
   slug: slugSchema,
   author: authorReferenceSchema,
-  publishedAt: z.string(),
+  publishedAt: z.string().nullable().optional(),
   updatedAt: z.string().nullable().optional(),
   coverImage: imageSchema.nullable().optional(),
   excerpt: z.string().nullable().optional(),

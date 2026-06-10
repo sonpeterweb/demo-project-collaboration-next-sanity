@@ -30,7 +30,7 @@ const blogFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
   authorId: z.string().min(1, "Author is required"),
-  publishedAt: z.string().min(1, "Published date is required"),
+  publishedAt: z.string().optional(),
   excerpt: z.string().optional(),
   content: z.string().min(1, "Content is required"),
   tags: z.string().optional(),
@@ -69,7 +69,7 @@ const defaultValues: BlogFormValues = {
   title: "",
   slug: "",
   authorId: "",
-  publishedAt: new Date().toISOString().slice(0, 16),
+  publishedAt: "",
   excerpt: "",
   content: "",
   tags: "",
@@ -96,8 +96,7 @@ export function BlogForm({
         title: initialValues?.title ?? "",
         slug: initialValues?.slug ?? "",
         authorId: initialValues?.authorId ?? authors[0]?._id ?? "",
-        publishedAt:
-          initialValues?.publishedAt ?? new Date().toISOString().slice(0, 16),
+        publishedAt: initialValues?.publishedAt ?? "",
         excerpt: initialValues?.excerpt ?? "",
         content: initialValues?.content ?? "",
         tags: initialValues?.tags ?? "",
@@ -202,7 +201,7 @@ export function BlogForm({
               name="publishedAt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Published At</FormLabel>
+                  <FormLabel>Published At (optional)</FormLabel>
                   <FormControl>
                     <Input
                       type="datetime-local"
@@ -210,6 +209,10 @@ export function BlogForm({
                       disabled={isSubmitting}
                     />
                   </FormControl>
+                  <p className="text-muted-foreground text-xs">
+                    Leave empty to save as a draft. Set a date when ready to
+                    publish on the live site.
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}

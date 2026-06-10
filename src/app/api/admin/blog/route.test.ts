@@ -91,10 +91,35 @@ describe("admin blog API routes", () => {
     expect(mockedWriteClient.create).toHaveBeenCalled();
   });
 
+  it("creates a draft blog post without publishedAt", async () => {
+    mockedWriteClient.create.mockResolvedValue({ _id: "post-draft" });
+
+    const response = await POST(
+      new Request("http://localhost/api/admin/blog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "Draft Post",
+          slug: "draft-post",
+          authorId: "author-1",
+          content: "Draft body",
+        }),
+      }),
+    );
+    const data = await response.json();
+
+    expect(response.status).toBe(201);
+    expect(data).toEqual({ success: true, id: "post-draft" });
+    expect(mockedWriteClient.create).toHaveBeenCalledWith(
+      expect.not.objectContaining({ publishedAt: expect.anything() }),
+    );
+  });
+
   it("updates a blog post", async () => {
     const commit = jest.fn().mockResolvedValue(undefined);
+    const patchChain = { unset: jest.fn().mockReturnThis(), commit };
     mockedWriteClient.patch.mockReturnValue({
-      set: jest.fn().mockReturnValue({ commit }),
+      set: jest.fn().mockReturnValue(patchChain),
     });
 
     const response = await PATCH(
