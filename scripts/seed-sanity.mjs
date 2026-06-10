@@ -568,7 +568,11 @@ async function seedCaseStudies() {
   ];
 
   for (const study of studies) {
-    await client.create({ _type: "caseStudy", ...study });
+    await client.create({
+      _type: "caseStudy",
+      slug: { _type: "slug", current: slugify(study.title) },
+      ...study,
+    });
   }
 }
 

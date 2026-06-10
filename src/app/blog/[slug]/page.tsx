@@ -8,6 +8,8 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { SanityImage } from "@/components/common/sanity-image";
 import { Section } from "@/components/common/section";
+import { env } from "@/env.mjs";
+import { buildPostOgImage } from "@/lib/og";
 import { isPreviewMode } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/fetch";
 import {
@@ -56,6 +58,8 @@ export async function generateMetadata({
     description:
       post.excerpt ??
       `Read ${post.title} by ${post.author?.name ?? "Flowspace"}.`,
+    image: buildPostOgImage(post.coverImage),
+    url: `${env.APP_URL}/blog/${post.slug.current}`,
   });
 }
 

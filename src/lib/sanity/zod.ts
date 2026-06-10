@@ -191,6 +191,7 @@ export const caseStudySchema = z.object({
   _type: z.literal("caseStudy"),
   ...sanitySystemFields,
   title: z.string(),
+  slug: slugSchema,
   client: z.string(),
   summary: z.string().nullable().optional(),
   logo: imageSchema.nullable().optional(),

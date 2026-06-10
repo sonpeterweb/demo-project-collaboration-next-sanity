@@ -312,6 +312,7 @@ export const allCaseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt d
   _createdAt,
   _updatedAt,
   title,
+  slug,
   client,
   summary,
   logo,
@@ -320,12 +321,32 @@ export const allCaseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt d
   outcomes
 }`;
 
+export const caseStudyBySlugQuery = `*[_type == "caseStudy" && slug.current == $slug][0] {
+  _id,
+  _type,
+  _createdAt,
+  _updatedAt,
+  title,
+  slug,
+  client,
+  summary,
+  logo,
+  image,
+  body,
+  outcomes
+}`;
+
+export const allCaseStudySlugsQuery = `*[_type == "caseStudy" && defined(slug.current)]{
+  "slug": slug.current
+}`;
+
 export const caseStudyByIdQuery = `*[_type == "caseStudy" && _id == $id][0] {
   _id,
   _type,
   _createdAt,
   _updatedAt,
   title,
+  slug,
   client,
   summary,
   logo,
@@ -432,6 +453,10 @@ export const sitemapEntriesQuery = `{
     "updatedAt": coalesce(updatedAt, publishedAt, _updatedAt)
   },
   "docPages": *[_type == "docPage"]{
+    "slug": slug.current,
+    "updatedAt": _updatedAt
+  },
+  "caseStudies": *[_type == "caseStudy" && defined(slug.current)]{
     "slug": slug.current,
     "updatedAt": _updatedAt
   }
