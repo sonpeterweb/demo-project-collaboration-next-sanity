@@ -1,6 +1,6 @@
 # Flowspace
 
-[![CI](https://github.com/YOUR_GITHUB_USERNAME/demo-project-collaboration-next-sanity/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/demo-project-collaboration-next-sanity/actions/workflows/ci.yml)
+[![CI](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml/badge.svg)](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml)
 
 A CMS-driven marketing and collaboration platform built with **Next.js 15**, **Sanity**, and **NextAuth**. Portfolio demo for Upwork — showcases headless CMS integration, preview mode, ISR caching, admin CRUD, and type-safe content pipelines.
 
@@ -18,9 +18,9 @@ A CMS-driven marketing and collaboration platform built with **Next.js 15**, **S
 
 Add captures to [`docs/screenshots/`](docs/screenshots/) after deploy, then uncomment the images below.
 
-<!--
 ![Home page](docs/screenshots/home.png)
 ![Blog listing](docs/screenshots/blog.png)
+<!--
 ![Admin panel](docs/screenshots/admin.png)
 ![Preview mode](docs/screenshots/preview.png)
 -->
