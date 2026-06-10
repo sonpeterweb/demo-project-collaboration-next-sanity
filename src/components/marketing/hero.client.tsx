@@ -41,14 +41,14 @@ export function HeroClient({ title, subtitle, cta }: HeroClientProps) {
         <div className="from-primary/5 absolute top-1/2 -right-20 h-64 w-64 rounded-full bg-gradient-to-bl to-transparent blur-3xl" />
       </div>
 
-      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="grid min-w-0 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Copy */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <motion.div
             {...fadeUp(0)}
             className="bg-primary/10 text-primary mb-4 inline-flex items-center rounded-full px-3 py-1 text-xs font-medium tracking-wide"
           >
-            Portfolio-ready collaboration platform
+            Collaboration for modern teams
           </motion.div>
 
           <motion.h1
@@ -100,7 +100,9 @@ export function HeroClient({ title, subtitle, cta }: HeroClientProps) {
         </div>
 
         {/* Product promo */}
-        <HeroPromo />
+        <div className="w-full min-w-0">
+          <HeroPromo />
+        </div>
       </div>
     </div>
   );

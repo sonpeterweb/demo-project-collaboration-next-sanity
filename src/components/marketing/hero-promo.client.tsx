@@ -80,14 +80,14 @@ export function HeroPromo() {
       initial={reduceMotion ? false : { opacity: 0, x: 24, scale: 0.98 }}
       animate={reduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.7, ease: "easeOut", delay: 0.25 }}
-      className="relative mx-auto w-full max-w-lg lg:max-w-none"
+      className="relative mx-auto w-full max-w-lg min-w-0 lg:max-w-none"
       aria-hidden
     >
       <motion.div animate={floatTransition} className="relative">
-        <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-transparent blur-2xl" />
+        <div className="pointer-events-none absolute -inset-2 rounded-3xl bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-transparent blur-2xl sm:-inset-4" />
 
         <div className="bg-card relative overflow-hidden rounded-xl border shadow-2xl shadow-rose-500/10">
-          <div className="bg-muted/60 flex items-center gap-2 border-b px-4 py-3">
+          <div className="bg-muted/60 flex min-w-0 items-center gap-2 border-b px-3 py-2.5 sm:px-4 sm:py-3">
             <div className="flex gap-1.5">
               <span className="bg-destructive/70 size-2.5 rounded-full" />
               <span className="size-2.5 rounded-full bg-amber-400/80" />
@@ -99,15 +99,15 @@ export function HeroPromo() {
             <motion.span
               animate={reduceMotion ? undefined : { opacity: [1, 0.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="ml-auto flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400"
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400"
             >
               <span className="size-1.5 rounded-full bg-emerald-500" />
               Synced
             </motion.span>
           </div>
 
-          <div className="grid min-h-[300px] grid-cols-[72px_1fr] sm:min-h-[340px]">
-            <div className="bg-muted/30 flex flex-col gap-3 border-r p-3">
+          <div className="grid min-h-[300px] grid-cols-[52px_minmax(0,1fr)] sm:min-h-[340px] sm:grid-cols-[72px_minmax(0,1fr)]">
+            <div className="bg-muted/30 flex flex-col gap-2 border-r p-2 sm:gap-3 sm:p-3">
               <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-lg">
                 <Sparkles className="size-4" />
               </div>
@@ -129,7 +129,7 @@ export function HeroPromo() {
               ))}
             </div>
 
-            <div className="relative p-4 sm:p-5">
+            <div className="relative min-w-0 p-3 sm:p-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
                   <p className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
@@ -157,7 +157,7 @@ export function HeroPromo() {
                       duration: 0.45,
                       ease: "easeOut",
                     }}
-                    className="bg-background flex items-center gap-3 rounded-lg border p-3 shadow-sm"
+                    className="bg-background flex min-w-0 items-center gap-2 rounded-lg border p-2.5 shadow-sm sm:gap-3 sm:p-3"
                   >
                     <span
                       className={`size-2 shrink-0 rounded-full ${item.accent}`}
@@ -178,7 +178,7 @@ export function HeroPromo() {
                             : undefined
                         }
                         transition={{ duration: 2, repeat: Infinity }}
-                        className={`rounded px-1.5 py-0.5 text-[9px] font-medium ${
+                        className={`shrink-0 rounded px-1.5 py-0.5 text-[9px] font-medium ${
                           item.highlight === "Live"
                             ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                             : "bg-amber-500/10 text-amber-700 dark:text-amber-400"
@@ -189,7 +189,7 @@ export function HeroPromo() {
                     )}
                     {item.highlight && reduceMotion && (
                       <span
-                        className={`rounded px-1.5 py-0.5 text-[9px] font-medium ${
+                        className={`shrink-0 rounded px-1.5 py-0.5 text-[9px] font-medium ${
                           item.highlight === "Live"
                             ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                             : "bg-amber-500/10 text-amber-700 dark:text-amber-400"
@@ -225,7 +225,7 @@ export function HeroPromo() {
                         times: [0, 0.15, 0.75, 1],
                       }
                 }
-                className="bg-background absolute right-4 bottom-4 left-4 flex items-start gap-2 rounded-lg border p-3 shadow-lg sm:left-auto sm:w-56"
+                className="bg-background absolute right-3 bottom-3 left-3 flex items-start gap-2 rounded-lg border p-2.5 shadow-lg sm:right-4 sm:bottom-4 sm:left-auto sm:w-56 sm:p-3"
               >
                 <Eye className="text-primary mt-0.5 size-4 shrink-0" />
                 <div>

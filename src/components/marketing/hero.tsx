@@ -30,10 +30,7 @@ export default async function Hero() {
   const cta = home?.cta ?? "Get Started";
 
   return (
-    <Section
-      className="overflow-hidden py-16 md:py-20 lg:py-24"
-      containerClassName="max-w-6xl"
-    >
+    <Section className="py-16 md:py-20 lg:py-24" containerClassName="max-w-6xl">
       <HeroClient title={title} subtitle={subtitle} cta={cta} />
     </Section>
   );
