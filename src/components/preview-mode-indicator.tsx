@@ -1,48 +1,14 @@
 "use client";
 
 import { EyeIcon, XIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-export function PreviewModeIndicator() {
-  const [isPreview, setIsPreview] = useState(false);
-  const router = useRouter();
+type PreviewModeIndicatorProps = {
+  isPreview: boolean;
+};
 
-  useEffect(() => {
-    // Check if preview mode cookie exists
-    const checkPreviewMode = () => {
-      const cookies = document.cookie.split(";");
-      const previewCookie = cookies.find((cookie) =>
-        cookie.trim().startsWith("__prerender_bypass="),
-      );
-      setIsPreview(!!previewCookie);
-    };
-
-    checkPreviewMode();
-
-    // Check periodically in case cookie is set/removed
-    const interval = setInterval(checkPreviewMode, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  async function handleExitPreview() {
-    try {
-      const response = await fetch("/api/exit-preview", {
-        method: "GET",
-      });
-
-      if (response.ok) {
-        setIsPreview(false);
-        router.refresh();
-      }
-    } catch (error) {
-      console.error("Failed to exit preview mode:", error);
-    }
-  }
-
+export function PreviewModeIndicator({ isPreview }: PreviewModeIndicatorProps) {
   if (!isPreview) return null;
 
   return (
@@ -50,16 +16,20 @@ export function PreviewModeIndicator() {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <EyeIcon className="size-4" />
-          <span>Preview Mode: You are viewing draft content</span>
+          <span>
+            Draft mode is on — unpublished content is visible across the site
+          </span>
         </div>
         <Button
+          asChild
           variant="ghost"
           size="sm"
-          onClick={handleExitPreview}
           className="h-7 text-yellow-950 hover:bg-yellow-400 dark:text-yellow-50 dark:hover:bg-yellow-700"
         >
-          <XIcon className="mr-1 size-3" />
-          Exit Preview
+          <a href="/api/exit-preview">
+            <XIcon className="mr-1 size-3" />
+            Exit Preview
+          </a>
         </Button>
       </div>
     </div>

@@ -1,20 +1,14 @@
+import { draftMode } from "next/headers";
 import { NextResponse } from "next/server";
 
-/**
- * API route to disable Next.js preview mode
- *
- * Usage:
- * - Redirect users here to exit preview mode
- * - Example: /api/exit-preview
- */
+/** Disable draft mode and return to the published site. */
 export async function GET(request: Request) {
-  // Get the referrer to redirect back, or go to home page
-  const referrer = request.headers.get("referer");
-  const redirectUrl = referrer || "/";
+  const { searchParams } = new URL(request.url);
+  const redirectPath = searchParams.get("redirect") ?? "/";
 
-  // Disable preview mode by deleting the preview cookie
-  const response = NextResponse.redirect(new URL(redirectUrl, request.url));
-  response.cookies.delete("__prerender_bypass");
+  const draft = await draftMode();
+  draft.disable();
 
-  return response;
+  const safePath = redirectPath.startsWith("/") ? redirectPath : "/";
+  return NextResponse.redirect(new URL(safePath, request.url));
 }

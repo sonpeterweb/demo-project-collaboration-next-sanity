@@ -1,6 +1,6 @@
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { cookies } from "next/headers";
+import { draftMode } from "next/headers";
 import { createClient } from "next-sanity";
 
 import { env } from "@/env.mjs";
@@ -45,17 +45,12 @@ export const previewClient = createClient({
   perspective: "previewDrafts", // Fetch draft content
 });
 
-/**
- * Check if preview mode is enabled by checking for the __prerender_bypass cookie
- * This cookie is set by Next.js when preview mode is enabled
- * @returns Whether preview mode is active
- */
+/** Whether Next.js draft mode is active (set via /api/preview). */
 export async function isPreviewMode(): Promise<boolean> {
   try {
-    const cookieStore = await cookies();
-    return cookieStore.has("__prerender_bypass");
+    const { isEnabled } = await draftMode();
+    return isEnabled;
   } catch {
-    // If cookies() fails (e.g., in middleware), return false
     return false;
   }
 }
@@ -67,7 +62,12 @@ export async function isPreviewMode(): Promise<boolean> {
  */
 export async function getClient(preview?: boolean) {
   const shouldPreview = preview ?? (await isPreviewMode());
-  if (shouldPreview && env.SANITY_API_READ_TOKEN) {
+  if (shouldPreview) {
+    if (!env.SANITY_API_READ_TOKEN) {
+      throw new Error(
+        "SANITY_API_READ_TOKEN is required to fetch draft content in preview mode.",
+      );
+    }
     return previewClient;
   }
   return client;

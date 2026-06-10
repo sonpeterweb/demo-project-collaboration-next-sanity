@@ -31,6 +31,9 @@ type BlogPostPageProps = {
   }>;
 };
 
+/** Allow preview URLs for slugs not generated at build time (e.g. drafts). */
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const slugs = await sanityFetch<Array<{ slug: string }>>(
     allBlogSlugsQuery,

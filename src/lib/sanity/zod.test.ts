@@ -52,6 +52,23 @@ describe("sanity zod schemas", () => {
     expect(result.success).toBe(true);
   });
 
+  it("accepts draft blog posts without publishedAt in preview mode", () => {
+    const result = blogPostWithAuthorSchema.safeParse({
+      _id: "post-draft",
+      _type: "blogPost",
+      title: "Unpublished draft",
+      slug: { _type: "slug", current: "unpublished-draft" },
+      author: {
+        _id: "author-1",
+        name: "Jordan Smith",
+        slug: { _type: "slug", current: "jordan-smith" },
+      },
+      excerpt: "Work in progress.",
+      tags: ["draft"],
+    });
+    expect(result.success).toBe(true);
+  });
+
   it("accepts blog posts from blogPostsPaginatedQuery", () => {
     const result = blogPostWithAuthorSchema.safeParse({
       _id: "post-1",

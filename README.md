@@ -10,20 +10,15 @@ A CMS-driven marketing and collaboration platform built with **Next.js 15**, **S
 
 | Resource | URL |
 |----------|-----|
-| **Live site** | `https://flowspacestudio.vercel.app` |
+| **Live site** | [https://flowspacestudio.vercel.app](https://flowspacestudio.vercel.app) |
 | **Sanity Studio** | [https://flowspacestudio.sanity.studio](https://flowspacestudio.sanity.studio) |
-| **Walkthrough** *(optional)* | `https://www.loom.com/share/your-video-id` |
 
 ### Screenshots
 
-Add captures to [`docs/screenshots/`](docs/screenshots/) after deploy, then uncomment the images below.
-
 ![Home page](docs/screenshots/home.png)
 ![Blog listing](docs/screenshots/blog.png)
-<!--
 ![Admin panel](docs/screenshots/admin.png)
 ![Preview mode](docs/screenshots/preview.png)
--->
 
 **Quick deploy:** Push to Vercel → set env vars from [`.env.example`](.env.example) → run `npm run seed:sanity:fresh` → update the links above.
 

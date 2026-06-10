@@ -46,7 +46,8 @@ function parseTags(tags?: string) {
     .filter(Boolean);
 }
 
-function toIsoDateTime(value: string) {
+function toIsoDateTime(value?: string) {
+  if (!value?.trim()) return undefined;
   return new Date(value).toISOString();
 }
 
@@ -114,7 +115,7 @@ export function BlogManager({
       authorId: detail.author?._ref ?? "",
       publishedAt: detail.publishedAt
         ? new Date(detail.publishedAt).toISOString().slice(0, 16)
-        : new Date().toISOString().slice(0, 16),
+        : "",
       excerpt: detail.excerpt ?? "",
       content: portableTextToPlainText(detail.content),
       tags: detail.tags?.join(", ") ?? "",

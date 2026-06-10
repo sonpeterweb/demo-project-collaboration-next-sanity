@@ -32,7 +32,7 @@ Create `.env.local` in the project root (see [`.env.example`](.env.example)):
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=your_read_token_here
-SANITY_REVALIDATE_SECRET=6bb703aff8a549cc79bf0393fbbbc49de8d49a643b3ab657476e2fe5b1804e02
+SANITY_REVALIDATE_SECRET=your_webhook_secret_here
 APP_URL=http://localhost:3000
 ```
 
@@ -96,7 +96,26 @@ When content is published in Sanity, trigger ISR cache busting without a full re
    - **Filter:** `_type in ["blogPost","docPage","caseStudy","feature","testimonial","pricingTier","pageHome","siteSettings"]`
 4. Publish content in Studio — the site should revalidate within seconds
 
-## Step 7: Verify Setup
+## Step 7: Preview Draft Content
+
+1. Set `SANITY_API_READ_TOKEN` with **Editor** permission (Viewer cannot read drafts).
+2. In Studio, leave **Published At** empty on a blog post to keep it as a draft.
+3. Open preview in the browser (use the slug from Studio):
+
+   ```
+   http://localhost:3000/api/preview?slug=blog/your-post-slug
+   ```
+
+   Shorthand for blog posts only: `?slug=your-post-slug` (auto-prefixes `blog/`).
+   For docs: `?slug=docs/your-doc-slug`.
+
+   A yellow bar confirms draft mode. It stays on **every page** until you exit — that is expected.
+
+4. Exit via **Exit Preview** in the bar, or visit `/api/exit-preview`.
+
+After changing the blog schema, restart Studio (`npm run sanity:dev`) or redeploy (`npm run sanity:deploy`).
+
+## Step 8: Verify Setup
 
 Restart the dev server after setting env vars:
 
