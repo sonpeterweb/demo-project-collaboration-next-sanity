@@ -23,16 +23,26 @@ test.describe("Home page", () => {
     if ((await blogLink.count()) > 0) {
       await blogLink.click();
       await expect(page).toHaveURL(/\/blog/);
-      await expect(page.getByRole("heading", { name: "Blog" })).toBeVisible();
+      await expect(
+        page
+          .getByRole("main")
+          .getByRole("heading", { name: "Blog", exact: true }),
+      ).toBeVisible();
       return;
     }
 
     // Fallback when Sanity nav is unavailable (e.g. CI without seeded content)
     await page.goto("/blog");
-    await expect(page.getByRole("heading", { name: "Blog" })).toBeVisible();
+    await expect(
+      page
+        .getByRole("main")
+        .getByRole("heading", { name: "Blog", exact: true }),
+    ).toBeVisible();
     await page.goto("/docs");
     await expect(
-      page.getByRole("heading", { name: "Documentation" }),
+      page
+        .getByRole("main")
+        .getByRole("heading", { name: "Documentation", exact: true }),
     ).toBeVisible();
   });
 });
