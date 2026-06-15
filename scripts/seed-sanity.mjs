@@ -107,7 +107,7 @@ async function seedHomePage() {
     heroTitle: "CMS-Driven Marketing, Built to Ship.",
     heroSubtitle:
       "A portfolio demo built with Next.js and Sanity — headless CMS, preview mode, ISR caching, admin CRUD, and SEO.",
-    cta: "View pricing",
+    cta: "View case studies",
   });
 }
 

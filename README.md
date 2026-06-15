@@ -1,8 +1,10 @@
 # Flowspace
 
-[![CI](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml/badge.svg)](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml)
+[![CI](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml/badge.svg)](https://github.com/sonpeterweb/demo-project-collaboration-next-sanity/actions/workflows/ci.yml) · **39 unit tests** + **5 Playwright e2e** scenarios (home, blog, contact, docs)
 
 **CMS-driven marketing platform built with Next.js + Sanity** — demonstrates headless CMS, preview, caching, admin CRUD, and SEO. Portfolio demo for Upwork.
+
+> **Marketing demo** — product features, case studies, testimonials, and pricing are illustrative content. The CMS pipeline, preview mode, caching, admin CRUD, and tests are fully implemented.
 
 ## Live demo
 
@@ -10,7 +12,7 @@
 |----------|-----|
 | **Live site** | [https://flowspacestudio.vercel.app](https://flowspacestudio.vercel.app) |
 | **Sanity Studio** | [https://flowspacestudio.sanity.studio](https://flowspacestudio.sanity.studio) |
-| **Preview mode** | [https://flowspacestudio.vercel.app/api/preview?secret=1478bfe5020840666ac6befcc5683b99cc2025c28b84b5592079182a0e148992&slug=blog/how-high-performing-teams-stay-aligned](#preview-mode-demo) (requires `SANITY_PREVIEW_SECRET`) |
+| **Preview mode** | [Try draft preview](#preview-mode-demo) (set `SANITY_PREVIEW_SECRET` on Vercel) |
 
 ### Screenshots
 
@@ -34,7 +36,7 @@
 | Blog search, docs hub, contact form → Sanity storage | “Collaboration platform” branding as sample vertical |
 | Jest unit tests + Playwright e2e + GitHub Actions CI | — |
 
-This is a **marketing-site portfolio piece**, not a collaboration SaaS product. It shows how I'd build a CMS-driven site for a real client.
+This is a **marketing-site portfolio piece**, not a collaboration SaaS product. **Marketing demo — product features are illustrative content.** It shows how I'd build a CMS-driven site for a real client.
 
 ---
 
@@ -105,8 +107,7 @@ flowchart LR
 - Per-post Open Graph images from Sanity assets
 - Accessible UI (skip links, semantic HTML, form validation)
 - Seed script with `--fresh` flag for demo-ready content
-- Jest unit tests + Playwright e2e (home, blog, contact, docs)
-- GitHub Actions CI: lint → typecheck → test → build → e2e
+- **39 unit tests** + **5 Playwright e2e** scenarios — CI: lint → typecheck → test → build → e2e ([badge above](#flowspace))
 
 **Stack:** Next.js 15 · React 19 · Sanity · Zod · NextAuth · Tailwind CSS · Playwright
 
@@ -145,7 +146,7 @@ Shorthand for blog posts: `?slug=how-high-performing-teams-stay-aligned` (auto-p
 - GitHub OAuth admin panel with CRUD for blog posts, testimonials, and pricing
 - Secret-protected preview mode for draft Sanity content
 - ISR caching, optimized Sanity images, and accessibility improvements
-- Jest unit tests and Playwright e2e tests
+- 39 Jest unit tests and 5 Playwright e2e scenarios with GitHub Actions CI
 
 ## Getting started
 

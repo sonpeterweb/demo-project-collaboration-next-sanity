@@ -85,7 +85,7 @@ export function HeroClient({ title, subtitle, cta }: HeroClientProps) {
               className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
             >
               <Button asChild size="lg" className="cursor-pointer">
-                <Link href="/pricing">{cta}</Link>
+                <Link href="/case-studies">{cta}</Link>
               </Button>
               <Button
                 asChild

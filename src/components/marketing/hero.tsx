@@ -27,7 +27,7 @@ export default async function Hero() {
   const subtitle =
     home?.heroSubtitle ??
     "A portfolio demo built with Next.js and Sanity — headless CMS, preview mode, ISR caching, admin CRUD, and SEO.";
-  const cta = home?.cta ?? "Get Started";
+  const cta = home?.cta ?? "View case studies";
 
   return (
     <Section className="py-16 md:py-20 lg:py-24" containerClassName="max-w-6xl">
