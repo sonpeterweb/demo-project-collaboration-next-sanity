@@ -8,6 +8,7 @@ const TYPE_TO_TAGS: Record<string, string[]> = {
   siteSettings: [SANITY_CACHE_TAGS.siteSettings],
   pageHome: [SANITY_CACHE_TAGS.homePage],
   feature: [SANITY_CACHE_TAGS.features],
+  integration: [SANITY_CACHE_TAGS.integrations],
   testimonial: [SANITY_CACHE_TAGS.testimonials],
   pricingTier: [SANITY_CACHE_TAGS.pricing],
   caseStudy: [SANITY_CACHE_TAGS.caseStudies],

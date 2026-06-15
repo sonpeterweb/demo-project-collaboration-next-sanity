@@ -3,12 +3,13 @@ import { env } from "@/env.mjs";
 export const siteConfig = {
   title: "Flowspace",
   description:
-    "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.",
+    "CMS-driven marketing platform built with Next.js + Sanity — demonstrates headless CMS, preview, caching, admin CRUD, and SEO.",
   keywords: [
-    "Flowspace",
-    "collaboration",
-    "project management",
-    "team communication",
+    "Next.js",
+    "Sanity CMS",
+    "headless CMS",
+    "marketing site",
+    "portfolio demo",
   ],
   url: env.APP_URL,
 };

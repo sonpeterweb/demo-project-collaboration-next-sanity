@@ -9,6 +9,7 @@ export const env = createEnv({
     NEXTAUTH_URL: z.string().url().optional(),
     NEXTAUTH_SECRET: z.string().min(1),
     SANITY_API_READ_TOKEN: z.string().optional(),
+    SANITY_PREVIEW_SECRET: z.string().optional(),
     SANITY_REVALIDATE_SECRET: z.string().optional(),
   },
   client: {
@@ -22,6 +23,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     SANITY_API_READ_TOKEN: process.env.SANITY_API_READ_TOKEN,
+    SANITY_PREVIEW_SECRET: process.env.SANITY_PREVIEW_SECRET,
     SANITY_REVALIDATE_SECRET: process.env.SANITY_REVALIDATE_SECRET,
     NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     NEXT_PUBLIC_SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,

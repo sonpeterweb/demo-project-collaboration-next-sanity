@@ -8,6 +8,7 @@ const SEED_TYPES = [
   "testimonial",
   "pricingTier",
   "feature",
+  "integration",
   "pageHome",
   "siteSettings",
 ];
@@ -86,7 +87,7 @@ async function seedSiteSettings() {
     _type: "siteSettings",
     siteTitle: "Flowspace",
     metaDescription:
-      "Flowspace helps teams collaborate, manage projects, and communicate effortlessly.",
+      "CMS-driven marketing platform built with Next.js + Sanity — headless CMS, preview, caching, admin CRUD, and SEO.",
     navLinks: [
       { label: "Features", href: "/features" },
       { label: "Pricing", href: "/pricing" },
@@ -103,10 +104,10 @@ async function seedHomePage() {
 
   await client.create({
     _type: "pageHome",
-    heroTitle: "Work Together, Flow Better.",
+    heroTitle: "CMS-Driven Marketing, Built to Ship.",
     heroSubtitle:
-      "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.",
-    cta: "Get Started",
+      "A portfolio demo built with Next.js and Sanity — headless CMS, preview mode, ISR caching, admin CRUD, and SEO.",
+    cta: "View case studies",
   });
 }
 
@@ -223,6 +224,23 @@ async function seedFeatures() {
 
   for (const feature of features) {
     await client.create({ _type: "feature", ...feature });
+  }
+}
+
+async function seedIntegrations() {
+  if (!isFresh && (await hasDocuments("integration"))) return;
+
+  const integrations = [
+    { name: "Sanity", href: "https://www.sanity.io", sortOrder: 1 },
+    { name: "Next.js", href: "https://nextjs.org", sortOrder: 2 },
+    { name: "Tailwind CSS", href: "https://tailwindcss.com", sortOrder: 3 },
+    { name: "Vercel", href: "https://vercel.com", sortOrder: 4 },
+    { name: "GitHub", href: "https://github.com", sortOrder: 5 },
+    { name: "Radix UI", href: "https://www.radix-ui.com", sortOrder: 6 },
+  ];
+
+  for (const integration of integrations) {
+    await client.create({ _type: "integration", ...integration });
   }
 }
 
@@ -740,6 +758,7 @@ async function main() {
   await seedSiteSettings();
   await seedHomePage();
   await seedFeatures();
+  await seedIntegrations();
   await seedPricing();
   await seedTestimonials();
   const authors = await seedAuthors();

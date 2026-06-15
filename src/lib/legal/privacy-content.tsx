@@ -12,10 +12,10 @@ export function getPrivacySections(siteTitle: string): LegalSection[] {
         <>
           <p>
             {siteTitle} (&quot;{siteTitle}&quot;, &quot;we&quot;,
-            &quot;us&quot;, or &quot;our&quot;) provides a cloud-based
-            collaboration platform for teams. This Privacy Policy explains what
-            personal data we collect, why we collect it, how we use and share
-            it, and the choices you have.
+            &quot;us&quot;, or &quot;our&quot;) provides a cloud-based demo
+            marketing platform built with Next.js and Sanity. This Privacy
+            Policy explains what personal data we collect, why we collect it,
+            how we use and share it, and the choices you have.
           </p>
           <p>
             This policy applies to visitors of our marketing website, account

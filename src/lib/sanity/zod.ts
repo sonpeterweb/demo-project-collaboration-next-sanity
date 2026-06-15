@@ -82,6 +82,18 @@ export const homePageSchema = z.object({
 
 export type HomePage = z.infer<typeof homePageSchema>;
 
+// Integration Schema
+export const integrationSchema = z.object({
+  _id: z.string(),
+  _type: z.literal("integration"),
+  name: z.string(),
+  href: z.string().nullable().optional(),
+  logo: imageSchema.nullable().optional(),
+  sortOrder: z.number().nullable().optional(),
+});
+
+export type Integration = z.infer<typeof integrationSchema>;
+
 // Feature Schema
 export const featureSchema = z.object({
   _id: z.string(),

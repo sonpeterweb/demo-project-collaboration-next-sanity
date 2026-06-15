@@ -48,7 +48,7 @@ export function HeroClient({ title, subtitle, cta }: HeroClientProps) {
             {...fadeUp(0)}
             className="bg-primary/10 text-primary mb-4 inline-flex items-center rounded-full px-3 py-1 text-xs font-medium tracking-wide"
           >
-            Collaboration for modern teams
+            CMS-driven marketing demo
           </motion.div>
 
           <motion.h1
@@ -85,7 +85,7 @@ export function HeroClient({ title, subtitle, cta }: HeroClientProps) {
               className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
             >
               <Button asChild size="lg" className="cursor-pointer">
-                <Link href="/pricing">{cta}</Link>
+                <Link href="/case-studies">{cta}</Link>
               </Button>
               <Button
                 asChild

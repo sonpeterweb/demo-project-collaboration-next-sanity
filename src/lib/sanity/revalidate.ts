@@ -12,6 +12,7 @@ export const SANITY_CACHE_TAGS = {
   homePage: "sanity:home-page",
   features: "sanity:features",
   testimonials: "sanity:testimonials",
+  integrations: "sanity:integrations",
   pricing: "sanity:pricing",
   caseStudies: "sanity:case-studies",
   blog: "sanity:blog",
