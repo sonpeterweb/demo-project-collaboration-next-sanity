@@ -10,7 +10,7 @@
 |----------|-----|
 | **Live site** | [https://flowspacestudio.vercel.app](https://flowspacestudio.vercel.app) |
 | **Sanity Studio** | [https://flowspacestudio.sanity.studio](https://flowspacestudio.sanity.studio) |
-| **Preview mode** | [One-click demo URL](#preview-mode-demo) (requires `SANITY_PREVIEW_SECRET`) |
+| **Preview mode** | [https://flowspacestudio.vercel.app/api/preview?secret=1478bfe5020840666ac6befcc5683b99cc2025c28b84b5592079182a0e148992&slug=blog/how-high-performing-teams-stay-aligned](#preview-mode-demo) (requires `SANITY_PREVIEW_SECRET`) |
 
 ### Screenshots
 
