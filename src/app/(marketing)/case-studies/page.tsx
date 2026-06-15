@@ -13,7 +13,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Case Studies",
   description:
-    "Success stories from teams using Flowspace to collaborate better.",
+    "Portfolio case studies showcasing CMS-driven marketing sites built with Next.js and Sanity.",
 });
 
 export default async function CaseStudiesPage() {
@@ -36,7 +36,7 @@ export default async function CaseStudiesPage() {
       <main id="main-content">
         <Section
           title="Case Studies"
-          description="See how Flowspace helps high-performing teams deliver results."
+          description="Demo case studies with outcome metrics — illustrative portfolio content managed in Sanity."
         >
           <div className="grid gap-6 md:grid-cols-2">
             {caseStudies.map((study) => (

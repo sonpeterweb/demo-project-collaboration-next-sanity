@@ -86,6 +86,16 @@ export const featuredTestimonialsQuery = `*[_type == "testimonial"] | order(_cre
   rating
 }`;
 
+// Integration Queries
+export const allIntegrationsQuery = `*[_type == "integration"] | order(sortOrder asc, name asc) {
+  _id,
+  _type,
+  name,
+  href,
+  logo,
+  sortOrder
+}`;
+
 // Author Queries
 export const authorBySlugQuery = `*[_type == "author" && slug.current == $slug][0] {
   _id,

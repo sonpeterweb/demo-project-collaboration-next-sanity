@@ -10,6 +10,7 @@ import { Reveal } from "@/components/marketing/reveal.client";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { cachedSanityFetch } from "@/lib/sanity/cached-fetch";
 import {
+  allIntegrationsQuery,
   featuredFeaturesQuery,
   featuredTestimonialsQuery,
 } from "@/lib/sanity/queries";
@@ -17,19 +18,21 @@ import { SANITY_CACHE_TAGS } from "@/lib/sanity/revalidate";
 import {
   type Feature,
   featureSchema,
+  type Integration,
+  integrationSchema,
   type Testimonial,
   testimonialSchema,
 } from "@/lib/sanity/zod";
 import { buildMetadata } from "@/lib/seo";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = buildMetadata({
   title: "Home",
-  description:
-    "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.",
+  description: siteConfig.description,
 });
 
 export default async function HomePage() {
-  const [features, testimonials] = await Promise.all([
+  const [features, testimonials, integrationsRaw] = await Promise.all([
     cachedSanityFetch<unknown>(
       ["featured-features"],
       featuredFeaturesQuery,
@@ -41,6 +44,12 @@ export default async function HomePage() {
       featuredTestimonialsQuery,
       {},
       { tags: [SANITY_CACHE_TAGS.testimonials] },
+    ),
+    cachedSanityFetch<unknown>(
+      ["all-integrations"],
+      allIntegrationsQuery,
+      {},
+      { tags: [SANITY_CACHE_TAGS.integrations] },
     ),
   ]);
 
@@ -54,6 +63,13 @@ export default async function HomePage() {
   )
     .map((t) => testimonialSchema.safeParse(t))
     .filter((r): r is { success: true; data: Testimonial } => r.success)
+    .map((r) => r.data);
+
+  const integrations: Integration[] = (
+    Array.isArray(integrationsRaw) ? integrationsRaw : []
+  )
+    .map((item) => integrationSchema.safeParse(item))
+    .filter((r): r is { success: true; data: Integration } => r.success)
     .map((r) => r.data);
 
   return (
@@ -97,14 +113,11 @@ export default async function HomePage() {
 
         <Integrations
           title="Built with"
-          items={[
-            { name: "Sanity" },
-            { name: "Next.js" },
-            { name: "Tailwind CSS" },
-            { name: "Vercel" },
-            { name: "GitHub" },
-            { name: "Radix UI" },
-          ]}
+          items={integrations.map((item) => ({
+            name: item.name,
+            href: item.href ?? undefined,
+            logo: item.logo,
+          }))}
         />
       </main>
       <Footer />

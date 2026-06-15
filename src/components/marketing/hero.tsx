@@ -23,10 +23,10 @@ async function getHome(): Promise<HomePage | null> {
 
 export default async function Hero() {
   const home = await getHome();
-  const title = home?.heroTitle ?? "Work Together, Flow Better.";
+  const title = home?.heroTitle ?? "CMS-Driven Marketing, Built to Ship.";
   const subtitle =
     home?.heroSubtitle ??
-    "Flowspace helps teams collaborate, manage projects, and communicate effortlessly — all in one place.";
+    "A portfolio demo built with Next.js and Sanity — headless CMS, preview mode, ISR caching, admin CRUD, and SEO.";
   const cta = home?.cta ?? "Get Started";
 
   return (

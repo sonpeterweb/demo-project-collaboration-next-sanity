@@ -36,7 +36,7 @@ export default async function PrivacyPage() {
               <>
                 Your privacy matters to us. This policy describes the
                 information {siteTitle} collects when you visit our website or
-                use our collaboration platform, and how we use, store, and
+                use this demo marketing platform, and how we use, store, and
                 protect it.
               </>
             }

@@ -32,6 +32,7 @@ Create `.env.local` in the project root (see [`.env.example`](.env.example)):
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=your_read_token_here
+SANITY_PREVIEW_SECRET=your_preview_secret_here
 SANITY_REVALIDATE_SECRET=your_webhook_secret_here
 APP_URL=http://localhost:3000
 ```
@@ -93,25 +94,36 @@ When content is published in Sanity, trigger ISR cache busting without a full re
    - **URL:** `https://your-site.com/api/revalidate?secret=YOUR_SECRET`
    - **Dataset:** `production`
    - **Trigger on:** Create, Update, Delete
-   - **Filter:** `_type in ["blogPost","docPage","caseStudy","feature","testimonial","pricingTier","pageHome","siteSettings"]`
+   - **Filter:** `_type in ["blogPost","docPage","caseStudy","feature","testimonial","pricingTier","integration","pageHome","siteSettings"]`
 4. Publish content in Studio — the site should revalidate within seconds
 
 ## Step 7: Preview Draft Content
 
 1. Set `SANITY_API_READ_TOKEN` with **Editor** permission (Viewer cannot read drafts).
-2. In Studio, leave **Published At** empty on a blog post to keep it as a draft.
-3. Open preview in the browser (use the slug from Studio):
+2. Set `SANITY_PREVIEW_SECRET` (e.g. `openssl rand -hex 32`) — required in production so only authorized users can enable draft mode.
+3. In Studio, leave **Published At** empty on a blog post to keep it as a draft.
+4. Open preview in the browser (use the slug from Studio):
 
    ```
-   http://localhost:3000/api/preview?slug=blog/your-post-slug
+   http://localhost:3000/api/preview?secret=YOUR_PREVIEW_SECRET&slug=blog/your-post-slug
    ```
 
-   Shorthand for blog posts only: `?slug=your-post-slug` (auto-prefixes `blog/`).
-   For docs: `?slug=docs/your-doc-slug`.
+   **One-click demo** (after deploy, replace host and secret):
+
+   ```
+   https://flowspacestudio.vercel.app/api/preview?secret=YOUR_PREVIEW_SECRET&slug=blog/how-high-performing-teams-stay-aligned
+   ```
+
+   Shorthand for blog posts only: `?secret=…&slug=your-post-slug` (auto-prefixes `blog/`).
+   For docs: `?secret=…&slug=docs/your-doc-slug`.
 
    A yellow bar confirms draft mode. It stays on **every page** until you exit — that is expected.
 
-4. Exit via **Exit Preview** in the bar, or visit `/api/exit-preview`.
+5. Exit via **Exit Preview** in the bar, or visit `/api/exit-preview`.
+
+**Security:** When `SANITY_PREVIEW_SECRET` is set, middleware rejects draft-mode cookies that were not issued through `/api/preview` with a valid secret.
+
+If `SANITY_PREVIEW_SECRET` is unset (local dev only), preview works without a secret query param.
 
 After changing the blog schema, restart Studio (`npm run sanity:dev`) or redeploy (`npm run sanity:deploy`).
 

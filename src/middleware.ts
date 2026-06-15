@@ -1,19 +1,24 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import {
+  isPreviewSecretRequired,
+  PREVIEW_AUTH_COOKIE,
+} from "@/lib/sanity/preview";
+
 export function middleware(request: NextRequest) {
-  // Check if preview mode is enabled (optional, for future use)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const isPreview = request.cookies.has("__prerender_bypass");
+  const isDraftBypass = request.cookies.has("__prerender_bypass");
 
-  // Allow preview mode to work by passing through the request
-  // Preview mode cookie is set by /api/preview route
-  // and checked by pages using getClient() from '@/lib/sanity/client'
+  if (isPreviewSecretRequired() && isDraftBypass) {
+    const hasPreviewAuth = request.cookies.has(PREVIEW_AUTH_COOKIE);
 
-  // You can add additional logic here if needed, such as:
-  // - Restricting preview mode to authenticated users
-  // - Adding custom headers for preview content
-  // - Redirecting preview requests
+    if (!hasPreviewAuth) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/api/exit-preview";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+  }
 
   return NextResponse.next();
 }
