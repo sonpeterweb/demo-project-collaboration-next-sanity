@@ -54,7 +54,7 @@ const defaultValues: PricingFormValues = {
   monthlyPrice: 0,
   yearlyPrice: 0,
   features: "",
-  buttonLabel: "Get Started",
+  buttonLabel: "See features",
   popular: false,
 };
 
@@ -79,7 +79,7 @@ export function PricingForm({
         monthlyPrice: initialValues?.monthlyPrice ?? 0,
         yearlyPrice: initialValues?.yearlyPrice ?? 0,
         features: initialValues?.features ?? "",
-        buttonLabel: initialValues?.buttonLabel ?? "Get Started",
+        buttonLabel: initialValues?.buttonLabel ?? "See features",
         popular: initialValues?.popular ?? false,
       });
     }

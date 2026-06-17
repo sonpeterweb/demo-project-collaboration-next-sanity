@@ -71,7 +71,7 @@ export function PricingManager({ initialTiers }: PricingManagerProps) {
       monthlyPrice: selected.monthlyPrice,
       yearlyPrice: selected.yearlyPrice,
       features: selected.features.join("\n"),
-      buttonLabel: selected.buttonLabel ?? "Get Started",
+      buttonLabel: selected.buttonLabel ?? "See features",
       popular: selected.popular ?? false,
     };
   }

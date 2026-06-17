@@ -36,8 +36,9 @@ export default defineType({
       name: "buttonLabel",
       type: "string",
       title: "Button Label",
-      description: "CTA button text (e.g., 'Get Started', 'Start Free Trial')",
-      initialValue: "Get Started",
+      description:
+        "CTA button text (e.g., 'See features', 'View case studies')",
+      initialValue: "See features",
     }),
     defineField({
       name: "popular",
