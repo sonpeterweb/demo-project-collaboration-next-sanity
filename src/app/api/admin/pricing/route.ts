@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       monthlyPrice: data.monthlyPrice,
       yearlyPrice: data.yearlyPrice,
       features: data.features,
-      buttonLabel: data.buttonLabel ?? "Get Started",
+      buttonLabel: data.buttonLabel ?? "See features",
       popular: data.popular ?? false,
     });
 

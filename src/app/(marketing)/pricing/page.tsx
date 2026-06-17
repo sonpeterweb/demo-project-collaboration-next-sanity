@@ -12,7 +12,8 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
-  description: "Flexible plans for teams of all sizes.",
+  description:
+    "Sample pricing tiers for the portfolio demo — editable in Sanity.",
 });
 
 export default async function PricingPage() {
@@ -33,7 +34,7 @@ export default async function PricingPage() {
       <main id="main-content">
         <Section
           title="Pricing"
-          description="Flexible plans to get your team moving."
+          description="Sample pricing tiers — editable in Sanity. Buttons link to demo pages, not checkout."
         >
           <PricingToggle tiers={safeTiers} />
         </Section>

@@ -95,7 +95,10 @@ export default async function HomePage() {
           </div>
         </Section>
 
-        <Section title="What customers say" description="Trusted by teams.">
+        <Section
+          title="What customers say"
+          description="Sample testimonials — editable in Sanity."
+        >
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {safeTestimonials.map((t, i) => (
               <Reveal key={t._id} delay={i * 0.05}>

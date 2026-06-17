@@ -258,7 +258,7 @@ async function seedPricing() {
         "Basic workflows",
         "Email support",
       ],
-      buttonLabel: "Start Free Trial",
+      buttonLabel: "See features",
       popular: false,
     },
     {
@@ -272,7 +272,7 @@ async function seedPricing() {
         "Priority support",
         "Audit logs",
       ],
-      buttonLabel: "Get Started",
+      buttonLabel: "View case studies",
       popular: true,
     },
     {
@@ -286,7 +286,7 @@ async function seedPricing() {
         "Custom integrations",
         "SLA guarantee",
       ],
-      buttonLabel: "Contact Sales",
+      buttonLabel: "Get in touch",
       popular: false,
     },
   ];

@@ -22,6 +22,17 @@ function formatCurrency(value: number) {
   }
 }
 
+function getPricingCtaHref(tier: PricingTier): string {
+  const name = tier.name.toLowerCase();
+  if (name.includes("enterprise")) return "/contact";
+  if (name.includes("pro")) return "/case-studies";
+  return "/features";
+}
+
+function getPricingCtaLabel(tier: PricingTier): string {
+  return tier.buttonLabel || "See features";
+}
+
 export function PricingTable({
   className,
   tiers,
@@ -65,7 +76,7 @@ export function PricingTable({
               ))}
             </ul>
             <Button asChild className="w-full cursor-pointer">
-              <Link href="#">{t.buttonLabel || "Get Started"}</Link>
+              <Link href={getPricingCtaHref(t)}>{getPricingCtaLabel(t)}</Link>
             </Button>
           </div>
         );
