@@ -89,7 +89,7 @@ flowchart LR
 
 **Caching pipeline:** Sanity content is fetched via GROQ, validated with Zod schemas, then served through `cachedSanityFetch` (Next.js `unstable_cache` + ISR tags). Publish events trigger `/api/revalidate` to bust stale pages without a full redeploy.
 
-**Preview pipeline:** `/api/preview?secret=…&slug=…` validates `SANITY_PREVIEW_SECRET`, enables draft mode, sets an auth cookie, and redirects. Middleware blocks draft-mode cookies that weren't issued through the preview route.
+**Preview pipeline:** `/api/preview?secret=…&slug=…` validates `SANITY_PREVIEW_SECRET`, enables draft mode, sets an auth cookie, and redirects. **Admin panel** uses `/api/admin/preview?slug=…` (GitHub session, no secret) with Preview buttons on the dashboard and each blog post.
 
 ---
 
@@ -117,7 +117,9 @@ See [SANITY_SETUP.md](SANITY_SETUP.md) for CMS credentials, Studio deploy, webho
 
 ## Preview mode demo
 
-Set `SANITY_PREVIEW_SECRET` in Vercel (and locally in `.env.local`), then open:
+**From the admin panel (recommended):** Sign in at `/admin` → use **Preview home page** on the dashboard, or **Preview** on any blog post (opens a new tab in draft mode).
+
+**Manual URL** (for sharing with non-admin reviewers): set `SANITY_PREVIEW_SECRET` in Vercel, then open:
 
 ```
 https://flowspacestudio.vercel.app/api/preview?secret=YOUR_SECRET&slug=blog/how-high-performing-teams-stay-aligned

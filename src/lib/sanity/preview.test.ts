@@ -1,6 +1,7 @@
 import {
   isPreviewSecretRequired,
   isValidPreviewSecret,
+  normalizePreviewPath,
 } from "@/lib/sanity/preview";
 
 describe("preview auth", () => {
@@ -27,5 +28,15 @@ describe("preview auth", () => {
     expect(isValidPreviewSecret("wrong")).toBe(false);
     expect(isValidPreviewSecret(null)).toBe(false);
     expect(isPreviewSecretRequired()).toBe(true);
+  });
+
+  it("normalizes preview slugs into app paths", () => {
+    expect(normalizePreviewPath(null)).toBe("/");
+    expect(normalizePreviewPath("/")).toBe("/");
+    expect(normalizePreviewPath("my-post")).toBe("/blog/my-post");
+    expect(normalizePreviewPath("blog/my-post")).toBe("/blog/my-post");
+    expect(normalizePreviewPath("docs/getting-started")).toBe(
+      "/docs/getting-started",
+    );
   });
 });
