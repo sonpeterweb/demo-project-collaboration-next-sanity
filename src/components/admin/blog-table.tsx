@@ -2,6 +2,7 @@
 
 import { Loader2Icon, PencilIcon, Trash2Icon } from "lucide-react";
 
+import { PreviewOpenButton } from "@/components/admin/preview-open-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -71,6 +72,11 @@ export function BlogTable({
             </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
+                <PreviewOpenButton
+                  slug={post.slug?.current ? `blog/${post.slug.current}` : ""}
+                  label="Preview"
+                  disabled={!post.slug?.current}
+                />
                 <Button
                   type="button"
                   variant="outline"

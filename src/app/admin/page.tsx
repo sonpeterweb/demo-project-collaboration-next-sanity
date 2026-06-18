@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { PreviewOpenButton } from "@/components/admin/preview-open-button";
 import { writeClient } from "@/lib/sanity/client";
 
 const sections = [
@@ -82,6 +83,21 @@ export default async function AdminDashboardPage() {
           );
         })}
       </div>
+
+      <section className="rounded-lg border p-6">
+        <h2 className="text-lg font-semibold">Draft preview</h2>
+        <p className="text-muted-foreground mt-1 max-w-2xl text-sm">
+          Open the site in draft mode to review unpublished Sanity content. On
+          the blog page, use Preview on any post to open it in a new tab.
+        </p>
+        <div className="mt-4">
+          <PreviewOpenButton
+            slug="/"
+            label="Preview home page"
+            size="default"
+          />
+        </div>
+      </section>
     </div>
   );
 }

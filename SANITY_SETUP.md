@@ -102,7 +102,9 @@ When content is published in Sanity, trigger ISR cache busting without a full re
 1. Set `SANITY_API_READ_TOKEN` with **Editor** permission (Viewer cannot read drafts).
 2. Set `SANITY_PREVIEW_SECRET` (e.g. `openssl rand -hex 32`) — required in production so only authorized users can enable draft mode.
 3. In Studio, leave **Published At** empty on a blog post to keep it as a draft.
-4. Open preview in the browser (use the slug from Studio):
+4. **From the admin panel:** sign in at `/admin` and click **Preview** on a blog post, or **Preview home page** on the dashboard (opens draft mode in a new tab — no secret in the URL).
+
+5. **Manual URL** (optional, for external reviewers): open preview in the browser:
 
    ```
    http://localhost:3000/api/preview?secret=YOUR_PREVIEW_SECRET&slug=blog/your-post-slug
@@ -119,9 +121,9 @@ When content is published in Sanity, trigger ISR cache busting without a full re
 
    A yellow bar confirms draft mode. It stays on **every page** until you exit — that is expected.
 
-5. Exit via **Exit Preview** in the bar, or visit `/api/exit-preview`.
+6. Exit via **Exit Preview** in the bar, or visit `/api/exit-preview`.
 
-**Security:** When `SANITY_PREVIEW_SECRET` is set, middleware rejects draft-mode cookies that were not issued through `/api/preview` with a valid secret.
+**Security:** When `SANITY_PREVIEW_SECRET` is set, middleware rejects draft-mode cookies that were not issued through `/api/preview` or `/api/admin/preview` (admin route requires GitHub sign-in).
 
 If `SANITY_PREVIEW_SECRET` is unset (local dev only), preview works without a secret query param.
 
